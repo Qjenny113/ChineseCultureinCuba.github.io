@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古巴华人文化传承</title>
+    <style>
+        :root {
+            --beige: #F5E6D3;
+            --deep-green: #2F4F4F;
+            --vintage-brown: #8B4513;
+            --gold: #DAA520;
+            --dark-gray: #333333;
+            --deep-red: #8B0000;
+            --cream: #F5E6D3;
+        }
+        /* 定义自定义字体 */
+        @font-face {
+                    font-family: 'FZShiGKSJW';
+                    src: url('font/FZShiGKSJW.TTF');
+                }
+        @font-face {
+                    font-family: 'FZYanSJW_Zhong';
+                    src: url('font/FZYanSJW_Zhong.ttf');
+                }
+
+        body {
+            margin: 0;
+            font-family:'FZShiGKSJW', cursive;
+            background-color: var(--cream);
+            color: var(--dark-gray);
+        }
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/古巴街景图.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* 设置蒙版颜色和透明度，这里使用 rgba 颜色值，最后一个参数 0.5 表示透明度为 50% */
+            background-color: rgba(196, 196, 196, 0.237); 
+            z-index: -1;
+        }
+        /* 导航栏样式 */
+        .nav {
+            background-color: var(--vintage-brown);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav li {
+            margin: 0 2rem;
+        }
+
+        .nav a {
+            color: var(--cream);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        /* 主要内容区域 */
+        .hero {
+            margin-top: 20px;
+            height: 100vh;
+            background: url('assets/vintage-texture.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+        }
+
+        /* 保留原大标题样式 */
+        .hero-content {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(245, 230, 211, 0.579);
+            border-radius: 10px;
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            color: var(--vintage-brown);
+            margin-bottom: 1rem;
+        }
+
+        .hero-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background-color: var(--deep-green);
+            color: var(--beige);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'FZYanSJW_Zhong';
+        }
+
+        .cta-button:hover {
+            background-color: var(--gold);
+        }
+
+        /* 装饰元素 */
+        .decorative-element {
+            position: absolute;
+            opacity: 0.2;
+        }
+
+        .lantern {
+            top: 20px;
+            right: 50px;
+            width: 100px;
+        }
+
+        .chinese-pattern {
+            bottom: 20px;
+            left: 50px;
+            width: 150px;
+        }
+
+        .fullpage-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .story-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('assets/vintage-paper.jpg') center/cover;
+            opacity: 0;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            transform: translateY(100%);
+        }
+
+        .story-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-content {
+            max-width: 800px;
+            padding: 2rem;
+            background: rgba(245, 230, 211, 0.9);
+            border: 2px solid var(--vintage-brown);
+            border-radius: 10px;
+            margin: 0 20px;
+            position: relative;
+        }
+
+        .story-section {
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: soft-light;
+        }
+
+        #story-1 {
+            background-color: rgba(139, 69, 19, 0.2);
+            background-image: url('assets/vintage-paper-brown.jpg');
+        }
+
+        #story-2 {
+            background-color: rgba(139, 0, 0, 0.2);
+            background-image: url('assets/vintage-paper-red.jpg');
+        }
+
+        #story-3 {
+            background-color: rgba(218, 165, 32, 0.2);
+            background-image: url('assets/vintage-paper-gold.jpg');
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .story-grid.reverse {
+            direction: rtl;
+        }
+
+        .story-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .story-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .story-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .decorative-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .pattern {
+            position: absolute;
+            opacity: 0.15;
+            transition: opacity 0.3s ease;
+        }
+
+        .pattern-1 { top: 20px; left: 20px; width: 100px; }
+        .pattern-2 { bottom: 20px; right: 20px; width: 120px; }
+        .pattern-3 { top: 50px; right: 30px; width: 80px; }
+        .pattern-4 { bottom: 30px; left: 40px; width: 100px; }
+        .pattern-5 { top: 30px; right: 40px; width: 90px; }
+        .pattern-6 { bottom: 40px; left: 30px; width: 110px; }
+
+        .story-section:hover .pattern {
+            opacity: 0.25;
+        }
+
+        @media (max-width: 768px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .story-image {
+                margin: 0 auto;
+                max-width: 400px;
+            }
+        }
+
+        /* 音乐图标样式 */
+        #music-toggle {
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: none;
+                    border: none;
+                    cursor: pointer;
+                    font-size: 30px;
+                    color: #333;
+                }
+
+                #music-toggle.playing {
+                    color: #ff0000;
+                }
+
+    </style>
+    <!-- 引入 Font Awesome 图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <nav class="nav">
+        <ul>
+            <li><a href="index.html">首页</a></li>
+            <li><a href="pages/history.html">历史</a></li>
+            <li><a href="pages/culture.html">文化</a></li>
+            <li><a href="pages/stories.html">华人故事</a></li>
+        </ul>
+    </nav>
+    <!-- 音乐控制按钮 -->
+    <button id="music-toggle">
+        <i class="fa-solid fa-music"></i>
+    </button>
+    <!-- 音频元素 -->
+    <audio id="background-music" src="bgm/华风古巴韵-2.mp3" loop></audio>
+
+    <main class="hero">
+        <div id="hero-content" class="hero-content">
+            <h1 class="hero-title">古巴华人的文化印记</h1>
+            <p class="hero-text">
+                跟随何秋兰和黄美玉的足迹，探索一段跨越百年的文化传承之旅。
+                在这片加勒比海的热土上，中华文化与古巴风情交织，谱写着动人的华人故事。
+            </p>
+            <button class="cta-button" onclick="location.href='#story-1'">开启寻根之旅</button>
+        </div>
+    </main>
+
+    <div class="fullpage-container">
+        <div class="story-section active" id="story-1">
+            <div class="story-content">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>我叫何秋兰</h2>
+                        <p>我出生在1930年代的哈瓦那，生父早逝后与母亲流浪街头。幸运的是，来自广东开平的华人方标收留了我们。他原是富家少爷，因痴迷粤剧离家出走，最终成为古巴劳工。方标视我如己出，教我说广东台山话、识汉字，还传授粤剧技艺。</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="assets/havana-chinatown.jpg" alt="哈瓦那唐人街老照片">
+                    </div>
+                </div>
+                <div class="decorative-elements">
+                    <img src="assets/chinese-pattern1.png" class="pattern pattern-1" alt="中式图案">
+                    <img src="assets/havana-elements.png" class="pattern pattern-2" alt="古巴元素">
+                </div>
+            </div>
+            <div class="scroll-hint">向下滚动继续阅读</div>
+        </div>
+
+        <div class="story-section" id="story-2">
+            <div class="story-content">
+                <div class="story-grid reverse">
+                    <div class="story-image">
+                        <img src="assets/cantonese-opera.jpg" alt="粤剧表演场景">
+                    </div>
+                    <div class="story-text">
+                        <h2>粤剧舞台上的璀璨人生</h2>
+                        <p>8岁登台表演，15岁就成为国光粤剧团的正印花旦，我在古巴华人社区备受欢迎。1959年古巴革命后，粤剧逐渐没落，我不得不改行，做过医院秘书和餐厅收银员。2010年，在华人摄影师刘博智的帮助下，我首次回到中国，祭拜养父方标的祖坟，还献唱了他教我的第一首粤剧《卖花女》。</p>
+                    </div>
+                </div>
+                <div class="decorative-elements">
+                    <img src="assets/musical-notes.png" class="pattern pattern-3" alt="音符">
+                    <img src="assets/opera-mask.png" class="pattern pattern-4" alt="戏曲面具">
+                </div>
+            </div>
+        </div>
+
+        <div class="story-section" id="story-3">
+            <div class="story-content">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>黄美玉：我的粤剧知音</h2>
+                        <p>我是黄美玉，一个拥有二分之一华人血统的古巴女性。父亲是广东开平人，母亲是古巴人。我用西班牙语注音学习粤剧唱词，在国光粤剧团与何秋兰成为黄金搭档。我演小生，她演花旦。虽然后来成为外交官，但退休后我们重逢，并在2011年至2019年间多次回中国演出，继续传承这份文化瑰宝。</p>
+                    </div>
+                    <div class="story-image">
+                        <img src="assets/friendship.jpg" alt="两位女性的友谊">
+                    </div>
+                </div>
+                <div class="decorative-elements">
+                    <img src="assets/chinese-knot.png" class="pattern pattern-5" alt="中国结">
+                    <img src="assets/flower.png" class="pattern pattern-6" alt="花卉">
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // 获取音乐按钮和音频元素
+        const musicToggle = document.getElementById('music-toggle');
+        const backgroundMusic = document.getElementById('background-music');
+
+        // 检查本地存储，恢复音乐播放状态
+        const isPlaying = localStorage.getItem('isPlaying') === 'true';
+        if (isPlaying) {
+            backgroundMusic.play();
+            musicToggle.classList.add('playing');
+        }
+
+        // 给音乐按钮添加点击事件监听器
+        musicToggle.addEventListener('click', function () {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                this.classList.add('playing');
+                localStorage.setItem('isPlaying', 'true');
+            } else {
+                backgroundMusic.pause();
+                this.classList.remove('playing');
+                localStorage.setItem('isPlaying', 'false');
+            }
+        });
+
+        // 页面卸载时保存音乐播放状态
+        window.addEventListener('beforeunload', function () {
+            localStorage.setItem('isPlaying', backgroundMusic.paused ? 'false' : 'true');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const music = document.getElementById('background-music');
+            const musicToggle = document.getElementById('music-toggle');
+            const musicIcon = document.getElementById('music-icon');
+            let hasInteracted = sessionStorage.getItem('hasInteracted') === 'true';
+
+            if (hasInteracted) {
+            music.play();
+            musicIcon.classList.add('playing');
+            }
+
+            // 监听页面上的所有点击事件
+            document.addEventListener('click', function handleFirstInteraction(event) {
+            if (!hasInteracted) {
+                music.play();
+                musicIcon.classList.add('playing');
+                hasInteracted = true;
+                sessionStorage.setItem('hasInteracted', 'true');
+                // 移除事件监听器，确保只在第一次互动时播放音乐
+                document.removeEventListener('click', handleFirstInteraction);
+            }
+            });
+
+            // 点击图标暂停/播放音乐
+            musicToggle.addEventListener('click', function() {
+            if (music.paused) {
+                music.play();
+                musicIcon.classList.add('playing');
+            } else {
+                music.pause();
+                musicIcon.classList.remove('playing');
+            }
+            });
+        });
+
+
+        const sections = document.querySelectorAll('.story-section');
+        let isAnimating = false;
+
+        document.querySelector('.cta-button').addEventListener('click', function() {
+            document.querySelector('.hero').style.display = 'none';
+            document.querySelector('.fullpage-container').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+            
+            // 新增代码：确保第一个故事部分显示
+            sections[0].style.transform = 'translateY(0)';
+            sections[0].classList.add('active');
+            currentSection = 0;
+        });
+
+        function scrollToSection(index) {
+            if (isAnimating || index < 0 || index >= sections.length) return;
+            
+            isAnimating = true;
+            
+            sections[currentSection].classList.remove('active');
+            sections[currentSection].style.transform = 'translateY(-100%)';
+            
+            currentSection = index;
+            
+            sections[currentSection].style.transform = 'translateY(0)';
+            sections[currentSection].classList.add('active');
+            
+            setTimeout(() => {
+                isAnimating = false;
+            }, 800);
+        }
+
+        window.addEventListener('wheel', function(e) {
+            if (document.querySelector('.fullpage-container').style.display === 'block') {
+                if (e.deltaY > 0) {
+                    // 向下滚动
+                    scrollToSection(currentSection + 1);
+                } else {
+                    // 向上滚动
+                    scrollToSection(currentSection - 1);
+                }
+            }
+        });
+
+        // 添加触摸支持
+        let touchStartY = 0;
+        window.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        window.addEventListener('touchmove', function(e) {
+            if (document.querySelector('.fullpage-container').style.display === 'block') {
+                const touchEndY = e.touches[0].clientY;
+                const diff = touchStartY - touchEndY;
+
+                if (Math.abs(diff) > 50) { // 最小滑动距离
+                    if (diff > 0) {
+                        scrollToSection(currentSection + 1);
+                    } else {
+                        scrollToSection(currentSection - 1);
+                    }
+                    touchStartY = touchEndY;
+                }
+            }
+        });
+        document.getElementById('home-link').addEventListener('click', function (e) {
+            e.preventDefault();
+            // 隐藏所有故事部分
+            const storySections = document.querySelectorAll('.story-section');
+            storySections.forEach(section => {
+                section.classList.remove('active');
+                // 新增代码：移除 transform 样式
+                section.style.transform = ''; 
+            });
+            // 隐藏 fullpage-container
+            document.querySelector('.fullpage-container').style.display = 'none';
+            // 显示 hero 部分
+            document.querySelector('.hero').style.display = 'flex';
+            document.body.style.overflow = 'auto';
+            // 滚动到首页内容
+            document.getElementById('hero-content').scrollIntoView({
+                behavior: 'smooth'
+            });
+            // 新增代码：重置当前故事索引
+            currentSection = 0; 
+        });
+        
+    </script>
+</body>
+</html>

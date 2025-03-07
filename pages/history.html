@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古巴华人文化传承</title>
+    <style>
+        :root {
+            --beige: #F5E6D3;
+            --deep-green: #2F4F4F;
+            --vintage-brown: #8B4513;
+            --gold: #DAA520;
+            --dark-gray: #333333;
+            --deep-red: #8B0000;
+            --cream: #F5E6D3;
+        }
+        /* 定义自定义字体 */
+        @font-face {
+            font-family: 'FZShiGKSJW';
+            src: url('../font/FZShiGKSJW.TTF');
+        }
+        @font-face {
+            font-family: 'FZYanSJW_Zhong';
+            src: url('../font/FZYanSJW_Zhong.ttf');
+        }
+
+        body {
+            margin: 0;
+            font-family: 'FZShiGKSJW', cursive;
+            background-color: var(--beige);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 0;
+            position: relative;
+            color: #333;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/history/历史背景图.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        /* 导航栏样式 */
+        .nav {
+            background-color: var(--vintage-brown);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav li {
+            margin: 0 2rem;
+        }
+
+        .nav a {
+            color: var(--beige);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        /* 主要内容区域 */
+        .hero {
+            margin-top: 20px;
+            height: 100vh;
+            background: url('assets/vintage-texture.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+        }
+
+        /* 保留原大标题样式 */
+        .hero-content {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(245, 230, 211, 0.76);
+            border-radius: 10px;
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            color: var(--vintage-brown);
+            margin-bottom: 1rem;
+        }
+
+        .hero-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background-color: var(--deep-green);
+            color: var(--beige);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'FZYanSJW_Zhong';
+        }
+
+        .cta-button:hover {
+            background-color: var(--gold);
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            max-width: 100%;
+            max-height: 100vh;
+            margin: auto;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .timeline-container {
+            padding-top: 80px;
+            min-height: 100vh;
+            position: relative;
+        }
+        /* 蒙版样式 */
+        .background-mask {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5); /* 调整透明度 */
+            z-index: 0;
+        }
+        .timeline {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            padding: 40px 20px;
+            z-index: 1;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: var(--deep-green);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            margin-bottom: 60px;
+            position: relative;
+            display: flex;
+            width: 100%;
+            align-items: center; /* 确保内容垂直居中 */
+        }
+
+        .timeline-dot {
+            width: 20px;
+            height: 20px;
+            background: var(--gold);
+            border-radius: 50%;
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+
+        .timeline-content {
+            display: flex;
+            flex-direction: column;
+            background: none;
+            box-shadow: none;
+            width: calc(48% - 10px); /* 适当减少宽度，给中线和图片留出空间 */
+            justify-content: center; /* 垂直居中 */
+            align-items: flex-start; /* 左对齐 */
+        }
+
+        .timeline-item.left .timeline-content {
+            margin-right: auto;
+            text-align: right; /* 右对齐 */
+            align-items: flex-end; /* 右对齐 */
+        }
+
+        .timeline-item.right .timeline-content {
+            margin-left: auto;
+            text-align: left; /* 左对齐 */
+            align-items: flex-start; /* 左对齐 */
+        }
+
+        .history-card {
+            display: flex;
+            width: auto;
+            gap: 20px;
+            align-items: center; /* 确保内容垂直居中 */
+        }
+
+        .timeline-item.left .history-card {
+            flex-direction: row; /* 图片在左，内容在右 */
+        }
+
+        .timeline-item.right .history-card {
+            flex-direction: row-reverse; /* 图片在右，内容在左 */
+        }
+
+        .history-image {
+            max-width: 500px;
+            height: auto;
+            object-fit: contain;
+            border-radius: 2px;
+            background-color: #fff;
+            width: calc(48% - 10px); /* 与内容部分宽度对应 */
+        }
+
+        .timeline-content h3 {
+            margin: 0;
+            display: inline-block;
+            align-self: flex-start; /* 左对齐 */
+        }
+
+        .timeline-item.left .timeline-content h3 {
+            align-self: flex-end; /* 右对齐 */
+        }
+
+        .detail-btn {
+            background: var(--vintage-brown);
+            color: white;
+            border: 5px;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            align-self: flex-start; /* 左对齐 */
+            display: inline-block;
+        }
+
+        .timeline-item.left .detail-btn {
+            align-self: flex-end; /* 右对齐 */
+        }
+
+        .detail-btn:hover {
+            background: var(--gold);
+        }
+
+        .detail-modal {
+            display: none;
+            position: fixed;
+            top:0px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: rgba(249, 245, 237, 0.881);
+            margin: 5% auto;
+            padding: 10px;
+            width: 90%;
+            max-width: 600px;
+            border-radius: 8px;
+            position: relative;
+            top: 250px;
+            max-height: 110%;
+            overflow-y: auto;
+        }
+        /* 新增详情图片样式 */
+        .detail-modal .modal-content img {
+            display: block; /* 将图片设置为块级元素，便于垂直居中 */
+            max-width: 50%; /* 图片最大宽度为模态框宽度 */
+            height: auto; /* 高度自适应，保证图片等比例缩放 */
+            margin: 15px auto; /* 上下边距为 15px，左右自动居中 */
+            border-radius: 4px; /* 图片圆角 */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* 图片阴影 */
+        }
+        .close-btn {
+            position: absolute;
+            right: 20px;
+            top: 10px;
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 768px) {
+            .timeline::before {
+                left: 20px;
+            }
+
+            .timeline-dot {
+                left: 12px;
+            }
+
+            .timeline-content {
+                max-width: 100%;
+                margin-left: 50px;
+            }
+
+            .history-card {
+                flex-direction: column;
+            }
+
+            .history-image {
+                width: 100%;
+            }
+        }
+            /* 新增时间线项目左右布局样式 */
+        .timeline-item.left .history-card {
+                flex-direction: row;
+            }
+
+        .timeline-item.right .history-card {
+                flex-direction: row-reverse;
+            }
+
+            @media (max-width: 768px) {
+            .timeline-item.left .history-card,
+            .timeline-item.right .history-card {
+                    flex-direction: column;
+                }
+            }
+    </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <nav class="nav">
+        <ul>
+            <li><a href="../index.html">首页</a></li>
+            <li><a href="./history.html">历史</a></li>
+            <li><a href="./culture.html">文化</a></li>
+            <li><a href="./stories.html">华人故事</a></li>
+        </ul>
+    </nav>
+
+    <!-- 音乐控制按钮 -->
+    <button id="music-toggle">
+        <i class="fa-solid fa-music"></i>
+    </button>
+    <!-- 音频元素 -->
+    <audio id="background-music" src="../bgm/华风古巴韵-2.mp3" loop></audio>
+
+    <main class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">古巴唐人的百年足迹</h1>
+            <p class="hero-text">
+                从1847年第一批华工抵达古巴开始，近17万华人移民在这片土地上谱写了动人的历史篇章。
+                他们用勤劳和智慧，在蔗糖种植园中挥洒汗水，在独立战争中浴血奋战，在商业街区创业打拼。
+                今天，让我们一起追溯这段跨越百年的移民史诗，感受古巴唐人的历史。
+            </p>
+            <button class="cta-button" onclick="location.href='#timeline-container'">探索华人足迹</button>
+        </div>
+    </main>
+    <main class="timeline-container" id="timeline-container">
+        <div class="timeline">
+            <!-- 1847年：早期移民 -->
+            <div class="timeline-item left" data-year="1847-1870">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>契约劳工时期</h3>
+                    <br>
+                    <button class="detail-btn" onclick="showDetail('1847')">了解更多</button>
+                </div>
+                <div class="history-image-container">
+                    <img src="assets/history/early-migration.jpg" alt="早期华工" class="history-image">
+                </div>
+            </div>
+
+            <!-- 1870 - 1900：自由移民时期 -->
+            <div class="timeline-item right" data-year="1870-1900">
+                <div class="timeline-dot"></div>
+                <div class="history-card">
+                    <img src="assets/history/free-migration.jpg" alt="自由移民" class="history-image">
+                </div>
+                <div class="timeline-content">
+                    <h3>自由移民时期</h3>
+                    <br>
+                    <button class="detail-btn" onclick="showDetail('1870')">了解更多</button>
+                </div>
+
+            </div>
+
+            <!-- 1900 - 1950：社区发展黄金期 -->
+            <div class="timeline-item left" data-year="1900-1950">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>社区发展黄金期</h3>
+                    <br>
+                    <button class="detail-btn" onclick="showDetail('1900')">了解更多</button>
+                </div>
+                <div class="history-card">
+                    <img src="assets/history/golden-age.jpg" alt="社区发展" class="history-image">
+                </div>
+            </div>
+
+            <!-- 1950 - 1980：政治变革期 -->
+            <div class="timeline-item right" data-year="1950-1980">
+                <div class="timeline-dot"></div>
+                <div class="history-card">
+                    <img src="assets/history/revolution-era.jpg" alt="变革时期" class="history-image">
+                </div>
+                <div class="timeline-content">
+                    <h3>政治变革期</h3>
+                    <br>
+                    <button class="detail-btn" onclick="showDetail('1950')">了解更多</button>
+                </div>
+            </div>
+
+            <!-- 1980 - 至今：文化复兴 -->
+            <div class="timeline-item left" data-year="1980-至今">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <h3>文化复兴时期</h3>
+                    <br>
+                    <button class="detail-btn" onclick="showDetail('1980')">了解更多</button>
+                </div>    
+                <div class="history-card">
+                    <img src="assets/history/revival.jpg" alt="文化复兴" class="history-image">
+                </div>
+            </div>
+        </div>
+
+        <!-- 详情模态框 -->
+        <div class="detail-modal">
+            <div class="modal-content">
+                <span class="close-btn">&times;</span>
+                <div id="detail-content"></div>
+            </div>
+        </div>
+
+        <!-- 蒙版 -->
+        <div class="background-mask"></div>
+    </main>
+
+
+    <script>
+        // 获取音乐按钮和音频元素
+        const musicToggle = document.getElementById('music-toggle');
+        const backgroundMusic = document.getElementById('background-music');
+
+        // 检查本地存储，恢复音乐播放状态
+        const isPlaying = localStorage.getItem('isPlaying') === 'true';
+        if (isPlaying) {
+            backgroundMusic.play();
+            musicToggle.classList.add('playing');
+        }
+
+        // 给音乐按钮添加点击事件监听器
+        musicToggle.addEventListener('click', function () {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                this.classList.add('playing');
+                localStorage.setItem('isPlaying', 'true');
+            } else {
+                backgroundMusic.pause();
+                this.classList.remove('playing');
+                localStorage.setItem('isPlaying', 'false');
+            }
+        });
+
+        // 页面卸载时保存音乐播放状态
+        window.addEventListener('beforeunload', function () {
+            localStorage.setItem('isPlaying', backgroundMusic.paused ? 'false' : 'true');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const music = document.getElementById('background-music');
+            const musicToggle = document.getElementById('music-toggle');
+            const musicIcon = document.getElementById('music-icon');
+            let hasInteracted = sessionStorage.getItem('hasInteracted') === 'true';
+
+            if (hasInteracted) {
+            music.play();
+            musicIcon.classList.add('playing');
+            }
+
+            // 监听页面上的所有点击事件
+            document.addEventListener('click', function handleFirstInteraction(event) {
+            if (!hasInteracted) {
+                music.play();
+                musicIcon.classList.add('playing');
+                hasInteracted = true;
+                sessionStorage.setItem('hasInteracted', 'true');
+                // 移除事件监听器，确保只在第一次互动时播放音乐
+                document.removeEventListener('click', handleFirstInteraction);
+            }
+            });
+
+            // 点击图标暂停/播放音乐
+            musicToggle.addEventListener('click', function() {
+            if (music.paused) {
+                music.play();
+                musicIcon.classList.add('playing');
+            } else {
+                music.pause();
+                musicIcon.classList.remove('playing');
+            }
+            });
+        });
+
+
+
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.story-section');
+        let isAnimating = false;
+
+        function scrollToSection(index) {
+            if (isAnimating || index < 0 || index >= sections.length) return;
+
+            isAnimating = true;
+
+            sections[currentSection].classList.remove('active');
+            sections[currentSection].style.transform = 'translateY(-100%)';
+
+            currentSection = index;
+
+            sections[currentSection].style.transform = 'translateY(0)';
+            sections[currentSection].classList.add('active');
+
+            setTimeout(() => {
+                isAnimating = false;
+            }, 800);
+        }
+
+        window.addEventListener('wheel', function (e) {
+            if (document.querySelector('.fullpage-container').style.display === 'block') {
+                if (e.deltaY > 0) {
+                    // 向下滚动
+                    scrollToSection(currentSection + 1);
+                } else {
+                    // 向上滚动
+                    scrollToSection(currentSection - 1);
+                }
+            }
+        });
+
+        // 添加触摸支持
+        let touchStartY = 0;
+        window.addEventListener('touchstart', function (e) {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        window.addEventListener('touchmove', function (e) {
+            if (document.querySelector('.fullpage-container').style.display === 'block') {
+                const touchEndY = e.touches[0].clientY;
+                const diff = touchStartY - touchEndY;
+
+                if (Math.abs(diff) > 50) { // 最小滑动距离
+                    if (diff > 0) {
+                        scrollToSection(currentSection + 1);
+                    } else {
+                        scrollToSection(currentSection - 1);
+                    }
+                    touchStartY = touchEndY;
+                }
+            }
+        });
+
+        function openModal(element) {
+            const modal = document.querySelector('.modal');
+            const modalImg = document.getElementById('modal-img');
+            const img = element.querySelector('.gallery-image');
+
+            modal.style.display = "block";
+            modalImg.src = img.src;
+            modalImg.alt = img.alt;
+
+            modal.onclick = function () {
+                modal.style.display = "none";
+            }
+        }
+
+        function openStory(storyId) {
+            // 这里可以添加打开详细故事页面的逻辑
+            console.log(`Opening story ${storyId}`);
+        }
+
+        function showDetail(year) {
+            const modal = document.querySelector('.detail-modal');
+            const content = document.getElementById('detail-content');
+
+            const details = {
+                '1847': {
+                    title: '契约劳工时期',
+                    content: `
+                        <h2>1847 - 1870：早期华工移民</h2>
+                        <img src="assets/history/early-migration.jpg" alt="早期华工">
+                        <p>1847年6月3日，首批206名华工抵达古巴雷加拉港。这些契约劳工主要来自中国南方的广东省，在甘蔗种植园和制糖厂工作。他们面临艰苦的工作条件，工时长、工资低，但许多人在合同期满后选择留在古巴，为早期华人社区的形成奠定了基础。</p>
+                    `
+                },
+                '1870': {
+                    title: '自由移民时期',
+                    content: `
+                        <h2>1870 - 1900：自由移民时期</h2>
+                        <img src="assets/history/free-migration.jpg" alt="自由移民">
+                        <p>契约劳工制度废除后，更多华人开始以自由移民的身份来到古巴。这个时期的移民主要从事商业、餐饮和手工业等行业，逐渐在哈瓦那等大城市建立起了自己的商业网络和社会组织。</p>
+                    `
+                },
+                '1900': {
+                    title: '社区发展黄金期',
+                    content: `
+                        <h2>1900 - 1950：社区发展黄金期</h2>
+                        <img src="assets/history/golden-age.jpg" alt="社区发展">
+                        <p>20世纪初期是古巴华人社区的黄金发展时期。华人经济实力显著提升，社会地位不断改善。哈瓦那唐人街成为重要的商业和文化中心，各类华人社团组织蓬勃发展。</p>
+                    `
+                },
+                '1950': {
+                    title: '政治变革期',
+                    content: `
+                        <h2>1950 - 1980：政治变革期</h2>
+                        <img src="assets/history/revolution-era.jpg" alt="变革时期">
+                        <p>这一时期的政治变革导致许多华人选择离开古巴，华人社区规模开始逐渐缩小。但仍有部分华人选择留下，继续在古巴生活并维护着传统文化。</p>
+                    `
+                },
+                '1980': {
+                    title: '文化复兴时期',
+                    content: `
+                        <h2>1980 - 至今：文化复兴时期</h2>
+                        <img src="assets/history/revival.jpg" alt="文化复兴">
+                        <p>近些年来，古巴政府开始重视华人文化的保护和复兴。新一代华裔积极投入传统文化的传承工作，推动社区的多元化发展。哈瓦那唐人街重现活力，吸引着越来越多的游客和投资。</p>
+                    `
+                }
+            };
+
+            content.innerHTML = details[year]?.content || '内容加载中...';
+            modal.style.display = 'block';
+        }
+
+        // 关闭模态框
+        document.querySelector('.close-btn').onclick = function () {
+            document.querySelector('.detail-modal').style.display = 'none';
+        }
+
+        // 获取时间线容器和蒙版元素
+        const timelineContainer = document.querySelector('.timeline-container');
+        const backgroundMask = document.querySelector('.background-mask');
+
+        // 监听窗口滚动事件
+        window.addEventListener('scroll', function () {
+            const timelineTop = timelineContainer.getBoundingClientRect().top;
+            const windowHeight = window.innerHeight;
+
+            if (timelineTop < windowHeight) {
+                // 时间线进入可视区域，显示蒙版
+                backgroundMask.style.display = 'block';
+            } else {
+                // 时间线离开可视区域，隐藏蒙版
+                backgroundMask.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

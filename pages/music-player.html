@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        /* 隐藏 iframe 以避免显示多余内容 */
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+    </style>
+</head>
+
+<body>
+    <audio id="bgm" src="bgm/华风古巴韵-2.mp3" loop></audio>
+    <script>
+        const audio = document.getElementById('bgm');
+        let isPlaying = false;
+
+        function playMusic() {
+            audio.play().catch(error => {
+                console.error('播放音乐时出错:', error);
+            });
+            isPlaying = true;
+        }
+
+        function pauseMusic() {
+            audio.pause();
+            isPlaying = false;
+        }
+
+        // 监听来自父页面的消息
+        window.addEventListener('message', function (event) {
+            if (event.data === 'play') {
+                playMusic();
+            } else if (event.data === 'pause') {
+                pauseMusic();
+            }
+        });
+
+        // 页面加载时尝试播放音乐
+        playMusic();
+    </script>
+</body>
+
+</html>

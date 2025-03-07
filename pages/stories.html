@@ -1,0 +1,1135 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古巴华人文化传承</title>
+    <style>
+        :root {
+            --beige: #F5E6D3;
+            --deep-green: #2F4F4F;
+            --vintage-brown: #8B4513;
+            --gold: #DAA520;
+            --dark-gray: #333333;
+            --deep-red: #8B0000;
+            --cream: #F5E6D3;
+        }
+        /* 定义自定义字体 */
+        @font-face {
+            font-family: 'FZShiGKSJW';
+            src: url('../font/FZShiGKSJW.TTF');
+        }
+        @font-face {
+            font-family: 'FZYanSJW_Zhong';
+            src: url('../font/FZYanSJW_Zhong.ttf');
+        }
+
+        body {
+            margin: 0;
+            font-family: 'FZShiGKSJW', cursive;
+            background-color: var(--beige);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 0;
+            position: relative;
+            color: #333;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/story/华人故事背景.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            /* 设置蒙版颜色和透明度，这里使用 rgba 颜色值，最后一个参数 0.5 表示透明度为 50% */
+            background-color: rgba(86, 86, 86, 0.519); 
+            z-index: -1;
+        }
+        /* 导航栏样式 */
+        .nav {
+            background-color: var(--vintage-brown);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav li {
+            margin: 0 2rem;
+        }
+
+        .nav a {
+            color: var(--beige);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        /* 主要内容区域 */
+        .hero {
+            margin-top: 20px;
+            height: 100vh;
+            background: url('assets/vintage-texture.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+        }
+
+        /* 保留原大标题样式 */
+        .hero-content {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(245, 230, 211, 0.739);
+            border-radius: 10px;
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            color: var(--vintage-brown);
+            margin-bottom: 1rem;
+        }
+
+        .hero-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background-color: var(--deep-green);
+            color: var(--beige);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'FZYanSJW_Zhong';
+        }
+
+        .cta-button:hover {
+            background-color: var(--gold);
+        }
+
+        .fullpage-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .story-section {
+            position: absolute;
+            top: 20px;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                        url('assets/vintage-paper.jpg') center/cover;
+            opacity: 0;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            transform: translateY(100%);
+        }
+
+        .story-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-content {
+            max-width: 700px;
+            max-height: 360px;
+            padding: 2rem;
+            background: rgba(245, 230, 211, 0.9);
+            border: 2px solid var(--vintage-brown);
+            border-radius: 10px;
+            margin: 0;
+            position: relative; /* 作为 h2 绝对定位的参考元素 */
+            top: 10px;
+        }
+
+        .story-content h2 {
+            position: absolute;
+            /* 距离顶部 20px */
+            top: 5px; 
+            font-size: 1.2rem;
+        }
+
+        .story-section {
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: soft-light;
+        }
+
+        #story-1 {
+            background-color: rgba(139, 69, 19, 0.2);
+            background-image: url('assets/vintage-paper-brown.jpg');
+        }
+
+        #story-2 {
+            background-color: rgba(139, 0, 0, 0.2);
+            background-image: url('assets/vintage-paper-red.jpg');
+        }
+
+        #story-3 {
+            background-color: rgba(218, 165, 32, 0.2);
+            background-image: url('assets/vintage-paper-gold.jpg');
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .story-grid.reverse {
+            direction: rtl;
+        }
+
+        .story-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .story-image {
+            position: relative;
+            overflow: hidden;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .story-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .story-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .decorative-elements {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .pattern {
+            position: absolute;
+            opacity: 0.15;
+            transition: opacity 0.3s ease;
+        }
+
+        .pattern-1 { top: 20px; left: 20px; width: 100px; }
+        .pattern-2 { bottom: 20px; right: 20px; width: 120px; }
+        .pattern-3 { top: 50px; right: 30px; width: 80px; }
+        .pattern-4 { bottom: 30px; left: 40px; width: 100px; }
+        .pattern-5 { top: 30px; right: 40px; width: 90px; }
+        .pattern-6 { bottom: 40px; left: 30px; width: 110px; }
+
+        .story-section:hover .pattern {
+            opacity: 0.25;
+        }
+
+        @media (max-width: 768px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .story-image {
+                margin: 0 auto;
+                max-width: 400px;
+            }
+        }
+
+        /* 添加书页样式 */
+        .book-container {
+            display: grid;
+            /* 缩小列的最小宽度 */
+            grid-template-columns: repeat(3, minmax(200px, 1fr)); 
+            /* 缩小间距 */
+            gap: 1rem; 
+            padding: 2rem;
+            max-width: 620px; /* 缩小容器的最大宽度 */
+            margin: 0 auto;
+        }
+
+        /* 调整书籍页面样式 */
+        .book-page {
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            /* 调整宽高比 */
+            aspect-ratio: 2.5/2; 
+        }
+
+        .book-page:hover {
+            transform: translateY(-5px);
+        }
+
+        .book-thumbnail {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 遮罩层优化 */
+        .book-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(47, 79, 79, 0.9);
+            color: var(--beige);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            padding: 15px; /* 建议改用rem单位 */
+            /* 新增文字容器设置 */
+            box-sizing: border-box;
+            overflow: hidden; /* 防止内容溢出 */
+            align-items: flex-start; /* 文字左对齐 */
+        }
+
+        .book-page:hover .book-overlay {
+            opacity: 1;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 1200px) {
+            .book-container {
+                grid-template-columns: repeat(3, minmax(180px, 1fr));
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .book-container {
+                grid-template-columns: repeat(2, minmax(200px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .book-container {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            .book-page {
+                aspect-ratio: 4/3;
+            }
+        }
+
+        /* 修改“日常生活”部分样式 */
+        #daily-life {
+            background: none;
+            border: none;
+            box-shadow: none;
+            text-align: center;
+            padding: 12px;
+            top: 50px;
+        }
+
+        #daily-life h2 {
+            color: aliceblue;
+            /* 添加文字阴影效果 */
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.61);
+            margin-bottom: 5px;
+            margin-top: 20px; /* 减少顶部外边距 */
+            position: relative; /* 确保标题不被覆盖 */
+            z-index: 100; /* 提高标题的层级 */
+        }
+
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            grid-auto-rows: 80px;
+            grid-auto-flow: dense;
+            gap: 10px;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .gallery-item {
+            cursor: pointer;
+        }
+
+        /* 为每个图片项设置随机的列和行跨度 */
+        .gallery-item:nth-child(3n) {
+            grid-column: span 2;
+        }
+
+        .gallery-item:nth-child(4n) {
+            grid-row: span 2;
+        }
+
+        .gallery-item:nth-child(5n) {
+            grid-column: span 2;
+            grid-row: span 2;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-item img:hover {
+            transform: scale(1.05);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 8px;
+        }
+
+        /* 模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90vh;
+            margin: auto;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+        /* 模态框内容容器样式 */
+        .modal-content-container {
+            display: flex;
+            align-items: flex-start;
+            gap: 1.5rem;
+            width: 100%;
+            height: 100%;
+        }
+
+        .modal-content-container img {
+            width: 45%;
+            height: auto;
+            border-radius: 8px;
+            object-fit: cover;
+            height: 400px;
+        }
+
+        .modal-content-container p {
+            width: 55%;
+            margin: 0;
+            font-size: 1rem;
+            line-height: 1.6;
+            overflow-y: auto;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .modal-content-container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .modal-content-container img,
+            .modal-content-container p {
+                width: 100%;
+                height: auto;
+            }
+        }
+        /* 模态框样式 */
+        .story-modal {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden; /* 禁止模态框外部滚动 */
+        }
+
+        .small-modal-content {
+            position: relative;
+            width: 90%;
+            max-width: 800px;
+            max-height: 70vh;
+            background: #2F4F4F;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-y: auto; /* 允许模态框内容滚动 */
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            color: var(--beige);
+        }
+
+        .modal-text {
+            font-weight: lighter;
+            line-height: 1.6;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            color: var(--beige);
+            font-size: 2rem;
+            cursor: pointer;
+        }
+
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .small-modal-content {
+                width: 90%;
+            }
+            .modal-image {
+                height: 50px;
+            }
+        }
+
+        /* 修改隐藏内容的样式 */
+        .hidden-content {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem; /* 图片和文字之间的间距 */
+            padding: 1rem; /* 内边距 */
+            width: 500px;
+            height: 80%;
+        }
+
+        /* 图片样式 */
+       .hidden-content img {
+            width: 55%; /* 图片宽度 */
+            height: auto; /* 保持图片比例 */
+            border-radius: 8px; /* 圆角 */
+            object-fit: cover; /* 保持图片比例 */
+        }
+
+        /* 文字样式 */
+       .hidden-content p {
+            width: 60%; /* 文字宽度 */
+            margin: 0; /* 去除默认的段落边距 */
+            line-height: 1.6; /* 行高 */
+            overflow-y: auto; /* 允许文字滚动 */
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .hidden-content {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .hidden-content img,
+            .hidden-content p {
+                width: 100%;
+                height: auto;
+            }
+        }
+    </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+<body>
+    <nav class="nav">
+        <ul>
+            <li><a href="../index.html">首页</a></li>
+            <li><a href="./history.html">历史</a></li>
+            <li><a href="./culture.html">文化</a></li>
+            <li><a href="./stories.html">华人故事</a></li>
+        </ul>
+    </nav>
+
+    <!-- 音乐控制按钮 -->
+    <button id="music-toggle">
+        <i class="fa-solid fa-music"></i>
+    </button>
+    <!-- 音频元素 -->
+    <audio id="background-music" src="../bgm/华风古巴韵-2.mp3" loop></audio>
+
+    <main class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">古巴华人家庭的文化传承</h1>
+            <p class="hero-text">
+                自 19 世纪中叶起，一批批来自广东的华工漂洋过海来到古巴，在洗衣铺、餐馆、种植园的辛劳中构建起新的生活。
+                他们中有人收养古巴孤儿，以超越血缘的亲情组建跨文化家庭；有人将粤式盆菜与古巴黑豆饭摆上同一张餐桌，让传统节庆绽放混血光彩......
+                <br>这些扎根加勒比海的华人家庭，始终以独特的生存智慧维系着文化血脉。
+            </p>
+            <button class="cta-button" onclick="location.href='#history'">体会华人故事</button>
+        </div>
+    </main>
+
+    <div class="fullpage-container">
+        <section class="story-section active" id="family-stories">
+            <div class="story-content">
+                <h2>古巴华人家庭故事</h2>
+                <div class="book-container">
+                     <!-- 卡片1 -->
+                    <div class="book-page">
+                        <img src="assets/story/黄民达1.jpg" alt="黄民达" class="book-thumbnail">
+                        <div class="book-overlay">
+                            <h3 class="book-title" style="font-weight: 100;font-size: 17px;">黄民达：<br>心系故乡的孤独老人</h3>
+                            <p class="book-excerpt" style="font-weight: lighter;font-size: 13px;">“相信能在古巴找到唐人”</p>
+                        </div>
+                        <!-- 新增隐藏内容 -->
+                        <div class="hidden-content" style="display:none;">
+                            <!-- 仅保留一张图片 -->
+                            <img src="assets/story/黄民达1.jpg" alt="黄民达" style="left: 20px !important; top: -10px !important; max-width: 30% !important; height: auto !important;">
+                            <p style="font-size: 14px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;黄民达来自广东开平，1949 年，他背井离乡来到古巴，后来担任黄江夏堂主席。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他居住在哈瓦那，由于断了一条腿，只能依靠义肢艰难地行走，行动极为不便。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;每天，他只能孤独地站在阳台，目光久久地望向街道，心中满是对故乡和亲人的思念。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;黄民达把家收拾得干净整洁，这或许与他曾在洗衣房工作的经历有关。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;尽管身处古巴多年，但他始终心系故乡，与乡下的妻儿分离多年，一直通过书信维系着彼此的联系。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然而，岁月无情，随着时间的流逝，他与家人的联系渐渐中断。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;《古巴唐人》作者得知他的情况后，积极地试图帮助他寻找家人，可惜由于各种复杂的原因，最终未能如愿。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在文化传承方面，黄民达与故乡亲人失联，使得他无法将故乡的文化和情感传递给下一代，出现了文化传承代际衔接的断裂，他所坚守的中国文化在异国难以找到传承的依托。
+                            </p>
+                        </div>
+                    </div>
+                
+                    <!-- 卡片2 -->
+                    <div class="book-page">
+                        <img src="assets/story/陈典穗1.png" alt="陈典穗" class="book-thumbnail">
+                        <div class="book-overlay">
+                            <h3 class="book-title" style="font-weight: 100;font-size: 17px;">陈典穗：<br>跨越血缘的父爱传奇</h3>
+                            <p class="book-excerpt" style="font-weight: lighter;font-size: 13px;">“不要离开家，不然我会死”</p>
+                        </div>
+                        <!-- 新增隐藏内容 -->
+                        <div class="hidden-content" style="display:none;">
+                            <!-- 仅保留一张图片 -->
+                            <img src="assets/story/陈典穗1.png" alt="陈典穗" style="left: 20px !important; top: -10px !important; max-width: 30% !important; height: auto !important;">
+                            <p> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈典穗是广东恩平人，19岁时前往古巴，先后从事洗衣、厨师等工作。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他虽然不是Alberto的亲生父亲，但给予了Alberto如山般的父爱，“是爸爸养大了我，他对我非常好，一直不希望我离开家”，这句深情的话语，体现了他们之间深厚的父子情。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈典穗与子女的关系十分亲密，他努力工作，用自己的双手撑起这个家。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在生活中，他还教子女一些中文和广东菜的做法，每逢圣涎节、除夕等节日，一家人聚在一起，充满了温馨与欢乐。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他用自己的善良和包容，为这个家庭营造了一个充满爱的港湾。即便生活充满了艰辛，他也始终坚守在家人身边，展现了古巴华人在异国他乡对家庭的高度重视和无私奉献。虽然陈典穗努力教子女中文和广东菜做法，传递中国文化，但是子女对中国文化的接受程度有限。
+                            </p>
+                        </div>
+                    </div>
+                
+                    <!-- 卡片3 -->
+                    <div class="book-page">
+                        <img src="assets/story/赵文立1.png" alt="赵文立" class="book-thumbnail">
+                        <div class="book-overlay">
+                            <h3 class="book-title" style="font-weight: 100;font-size: 17px;">赵文立：<br>《光华报》的坚守者</h3>
+                            <p class="book-excerpt" style="font-weight: lighter;font-size: 13px;">“《光华报》和它的最后一位主编”</p>
+                        </div>
+                        <div class="hidden-content" style="display:none;">
+                            <!-- 仅保留一张图片 -->
+                            <img src="assets/story/赵文立1.png" alt="赵文立" style="left: 20px !important; top: -10px !important; max-width: 45% !important; height: auto !important;">
+                            <p style="font-size: 14px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;赵文立是广东新会古井人，是《光华报》的最后一位主编。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;初到古巴时，他在父亲的杂货店帮忙，之后从事过多种工作。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1976年，他进入《光华报》，负责排版和校对工作。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在《光华报》工作期间，他全身心地投入，尽管每月工资微薄，不到 10 比索，但他毫无怨言，“从排版印到调整印刷机，甚至连扫地也自己动手”，兢兢业业地坚守在岗位上。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然而，随着时间的推移，《光华报》报馆因各种原因逐渐破败，最终停刊。赵文立也住进了养老院。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除了在报社的工作，他还担任中华总会馆财务等重要职务，管理着老侨登记资料，为古巴华人社区的事务默默奉献着自己的力量，见证了古巴华人社区的变迁。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;赵文立所坚守的《光华报》停刊，使古巴华人文化传播失去了重要阵地。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;虽然他在中华总会馆任职，但随着华人社会的凋零，文化传承工作难以开展，面临着文化传播渠道受阻的困境。
+                        </div>
+                    </div>
+                
+                    <!-- 卡片4 -->
+                    <div class="book-page">
+                        <img src="assets/story/吴帝胄1.png" alt="吴帝胄" class="book-thumbnail">
+                        <div class="book-overlay">
+                            <h3 class="book-title" style="font-weight: 100;font-size: 17px;">吴帝胄：<br>革命岁月与故乡情怀</h3>
+                            <p class="book-excerpt" style="font-weight: lighter;font-size: 12px;">“我们把中华人民共和国国旗，插到了中华会馆的楼上”</p>
+                        </div>
+                        <div class="hidden-content" style="display:none;">
+                            <!-- 仅保留一张图片 -->
+                            <img src="assets/story/吴帝胄1.png" alt="吴帝胄" style="left: 20px !important; top: -10px !important; max-width: 30% !important; height: auto !important;">
+                            <p style="font-size: 14px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;吴帝胄是中西混血华商，1933年出生于古巴。在古巴革命的浪潮中，他满怀热血，积极组织古巴唐人成立民兵队，以“自由战士贯海”之名维护革命秩序，还带领队员们将中华人民共和国国旗插到了中华会馆楼上，展现了他的爱国情怀和革命热情。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;随着时间的推移，吴帝胄经历了古巴社会的巨大变革，晚年生活并不宽裕。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但他对古巴和中国都有着深厚的感情，心中始终牵挂着故乡。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;《古巴唐人》作者了解到他的情况后，帮助他寻根溯源。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最终，吴帝胄回到了家乡广东新会。在故乡，他见到了从未谋面的亲人，参观了祖屋和吴氏宗祠，儿时父亲讲述的家乡景象如今真实地呈现在眼前，多年的心愿得以实现。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这一经历深刻地体现了他对故乡的深深思念和对自己华人身份的强烈认同，无论身处何方，故乡始终是其心灵的归宿。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然而，古巴社会变革使华人文化社区逐渐衰落，吴帝胄虽试图记录华人在古巴的历史，努力传承文化，但在大环境的影响下，他的力量仍显得单薄
+                            </p>
+                        </div>
+                    </div>
+                
+                    <!-- 卡片5 -->
+                    <div class="book-page">
+                        <img src="assets/story/郑集禧1.png" alt="郑集禧" class="book-thumbnail">
+                        <div class="book-overlay">
+                            <h3 class="book-title" style="font-weight: 100;font-size: 17px;">郑集禧：<br>洪门精神的传承者</h3>
+                            <p class="book-excerpt" style="font-weight: lighter;font-size: 13px;">“古巴洪门：忠诚救国、义气团结、侠义除奸”</p>
+                        </div>
+                        <div class="hidden-content" style="display:none;">
+                            <!-- 仅保留一张图片 -->
+                            <img src="assets/story/郑集禧1.png" alt="郑集禧" style="left: 20px !important; top: -10px !important; max-width: 44% !important; height: auto !important;">
+                            <p style="font-size: 15px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;郑集禧是圣地亚哥洪门民治党主席，来自广东恩平。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;来到古巴后，他从事过杂货、洗衣等工作，后来与一位古巴女子结为夫妻，二人感情深厚。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;郑集禧能说一口流利的广东话，在当地华人社区中，他积极投身于洪门活动。在民治党供奉关帝坛的房间里，可以感受到洪门文化的独特魅力。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在郑集禧身上可以看到洪门在古巴华人中的影响力，以及古巴华人对洪门组织所秉持的“忠诚救国、义气团结、侠义除奸” 精神的传承和认同，这种精神成为他们在异国他乡相互扶持的精神纽带。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但如今，洪门组织在古巴华人中的影响力大不如前，文件从中文转变成西班牙文，会员结构也发生变化，年轻一代参与度不高。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;像郑集禧这样的老一代成员逐渐减少，导致洪门文化传承出现困境，难以延续其传统精神和文化内涵。
+                            </p>
+                        </div>
+                    </div>
+                
+                    <!-- 卡片6 -->
+                    <div class="book-page">
+                        <img src="assets/story/陈享财1.png" alt="陈享财" class="book-thumbnail">
+                        <div class="book-overlay">
+                            <h3 class="book-title" style="font-weight: 100;font-size: 17px;">陈享财：<br>孤独奋斗的一生</h3>
+                            <p class="book-excerpt" style="font-weight: lighter;font-size: 13px;"> “此后再无华人移入古巴”</p>
+                        </div>
+                        <div class="hidden-content" style="display:none;">
+                            <!-- 仅保留一张图片 -->
+                            <img src="assets/story/陈享财1.png" alt="陈享财" style="left: 20px !important; top: -10px !important; max-width: 44% !important; height: auto !important;">
+                            <p style="font-size: 15px;"> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈享财1927年出生于台山斗山，来到古巴后，他做过过杂食店、餐厅厨房杂工和洗碗工等多种工作，后来在政府大型餐厅做帮厨，凭借努力成为副厨。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他一生未婚，却始终牵挂着家乡的亲人，每隔数月就寄钱回乡养家，直到父母去世。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;晚年的他生活困苦，身体状况不佳，居住环境脏乱差，但他拒绝住进离家不远的唐人老人院。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2018年，陈享财离世，他的一生充满了艰辛，却也体现了他对家乡的深深牵挂和对家庭责任的坚守，他的经历是部分古巴华人艰苦生活的真实写照。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈享财一生未婚，独自在古巴打拼，生活艰苦。他与中国的联系主要是寄钱回家，在古巴缺乏传承中国文化的环境和对象，面临着个人文化传承孤立无援的困境，难以将中国文化在当地延续下去。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 在文件末尾（</body>标签前）添加模态框 -->
+        <div class="story-modal modal">
+            <div class="small-modal-content">
+                <button class="modal-close">&times;</button>
+                <img class="modal-image" src="" >
+                <div class="modal-text">
+                    <div class="modal-fulltext">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="story-section" id="daily-life">
+            <h2>日常生活</h2>
+            <div class="gallery-container">
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily1.jpg" alt="daily1">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily2.jpg" alt="daily2">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily3.jpg" alt="daily3">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily4.jpg" alt="daily4">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily5.jpg" alt="daily5">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily6.jpg" alt="daily6">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily7.jpg" alt="daily7">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily8.jpg" alt="daily8">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily9.jpg" alt="daily9">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily10.jpg" alt="daily10">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily11.jpg" alt="daily11">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily12.jpg" alt="daily12">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily13.jpg" alt="daily13">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily14.jpg" alt="daily14">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily15.jpg" alt="daily15 " style="height: 47%">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily16.jpg" alt="daily16">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily17.jpg" alt="daily17">
+                </div>
+                <div class="gallery-item" onclick="openGalleryModal(this)">
+                    <img src="assets/daily/daily18.jpg" alt="daily18">
+                </div>
+            </div>
+        </section>
+    
+        <div class="modal" id="daily-modal" onclick="closeGalleryModal()">
+            <img class="daily-modal-img" id="daily-modal-img">
+        </div>
+
+    <script>
+        // 获取音乐按钮和音频元素
+        const musicToggle = document.getElementById('music-toggle');
+        const backgroundMusic = document.getElementById('background-music');
+
+        // 检查本地存储，恢复音乐播放状态
+        const isPlaying = localStorage.getItem('isPlaying') === 'true';
+        if (isPlaying) {
+            backgroundMusic.play();
+            musicToggle.classList.add('playing');
+        }
+
+        // 给音乐按钮添加点击事件监听器
+        musicToggle.addEventListener('click', function () {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                this.classList.add('playing');
+                localStorage.setItem('isPlaying', 'true');
+            } else {
+                backgroundMusic.pause();
+                this.classList.remove('playing');
+                localStorage.setItem('isPlaying', 'false');
+            }
+        });
+
+        // 页面卸载时保存音乐播放状态
+        window.addEventListener('beforeunload', function () {
+            localStorage.setItem('isPlaying', backgroundMusic.paused ? 'false' : 'true');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const music = document.getElementById('background-music');
+            const musicToggle = document.getElementById('music-toggle');
+            const musicIcon = document.getElementById('music-icon');
+            let hasInteracted = sessionStorage.getItem('hasInteracted') === 'true';
+
+            if (hasInteracted) {
+            music.play();
+            musicIcon.classList.add('playing');
+            }
+
+            // 监听页面上的所有点击事件
+            document.addEventListener('click', function handleFirstInteraction(event) {
+            if (!hasInteracted) {
+                music.play();
+                musicIcon.classList.add('playing');
+                hasInteracted = true;
+                sessionStorage.setItem('hasInteracted', 'true');
+                // 移除事件监听器，确保只在第一次互动时播放音乐
+                document.removeEventListener('click', handleFirstInteraction);
+            }
+            });
+
+            // 点击图标暂停/播放音乐
+            musicToggle.addEventListener('click', function() {
+            if (music.paused) {
+                music.play();
+                musicIcon.classList.add('playing');
+            } else {
+                music.pause();
+                musicIcon.classList.remove('playing');
+            }
+            });
+        });
+        
+
+        let currentSection = 0;
+        const sections = document.querySelectorAll('.story-section');
+        let isAnimating = false;
+
+        document.querySelector('.cta-button').addEventListener('click', function() {
+            document.querySelector('.hero').style.display = 'none';
+            document.querySelector('.fullpage-container').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        });
+
+        function scrollToSection(index) {
+            if (isAnimating || index < 0 || index >= sections.length) return;
+            
+            isAnimating = true;
+            
+            sections[currentSection].classList.remove('active');
+            sections[currentSection].style.transform = 'translateY(-100%)';
+            
+            currentSection = index;
+            
+            sections[currentSection].style.transform = 'translateY(0)';
+            sections[currentSection].classList.add('active');
+            
+            setTimeout(() => {
+                isAnimating = false;
+            }, 800);
+        }
+
+        window.addEventListener('wheel', function(e) {
+            if (document.querySelector('.fullpage-container').style.display === 'block') {
+                if (e.deltaY > 0) {
+                    // 向下滚动
+                    scrollToSection(currentSection + 1);
+                } else {
+                    // 向上滚动
+                    scrollToSection(currentSection - 1);
+                }
+            }
+        });
+
+        // 添加触摸支持
+        let touchStartY = 0;
+        window.addEventListener('touchstart', function(e) {
+            touchStartY = e.touches[0].clientY;
+        });
+
+        window.addEventListener('touchmove', function(e) {
+            if (document.querySelector('.fullpage-container').style.display === 'block') {
+                const touchEndY = e.touches[0].clientY;
+                const diff = touchStartY - touchEndY;
+
+                if (Math.abs(diff) > 50) { // 最小滑动距离
+                    if (diff > 0) {
+                        scrollToSection(currentSection + 1);
+                    } else {
+                        scrollToSection(currentSection - 1);
+                    }
+                    touchStartY = touchEndY;
+                }
+            }
+        });
+
+        function openModal(card) {
+            const modal = document.querySelector('.story-modal');
+            const imgSrc = card.querySelector('img').src;
+            const hiddenContent = card.querySelector('.hidden-content');
+            const img = hiddenContent.querySelector('img').cloneNode(true); // 克隆图片
+            const text = hiddenContent.querySelector('p').cloneNode(true); // 克隆文字
+
+            // 清空模态框内容
+            const modalFullText = modal.querySelector('.modal-fulltext');
+            modalFullText.innerHTML = '';
+
+            // 创建容器来放置图片和文字
+            const contentContainer = document.createElement('div');
+            contentContainer.className = 'modal-content-container';
+            contentContainer.style.display = 'flex';
+            contentContainer.style.gap = '1.5rem';
+            contentContainer.style.width = '100%';
+            contentContainer.style.height = '100%';
+
+            // 添加图片和文字到容器
+            contentContainer.appendChild(img);
+            contentContainer.appendChild(text);
+
+            // 将容器添加到模态框
+            modalFullText.appendChild(contentContainer);
+
+            // 显示模态框并禁用底层滚动
+            modal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+
+        // 关闭模态框时恢复底层滚动
+        function closeModal() {
+            const modal = document.querySelector('.story-modal');
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto'; // 恢复页面滚动
+        }
+
+        // 绑定关闭事件
+        document.addEventListener('DOMContentLoaded', () => {
+            const modal = document.querySelector('.story-modal');
+
+            // 点击关闭按钮
+            document.querySelector('.modal-close').addEventListener('click', closeModal);
+
+            // 点击背景层关闭
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) {
+                    closeModal();
+                }
+            });
+
+            // ESC键关闭
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    closeModal();
+                }
+            });
+
+            // 阻止内容区域点击关闭
+            document.querySelector('.small-modal-content').addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+
+            // 阻止模态框内容滚动事件冒泡
+            document.querySelector('.small-modal-content').addEventListener('wheel', (e) => {
+                e.stopPropagation(); // 阻止滚动事件冒泡
+            });
+
+            // 移动端触摸滚动阻止
+            document.querySelector('.small-modal-content').addEventListener('touchmove', (e) => {
+                e.stopPropagation(); // 阻止触摸事件冒泡
+            }, { passive: false });
+        });
+
+        // 卡片点击事件
+        document.querySelectorAll('.book-page').forEach((card) => {
+            card.addEventListener('click', () => openModal(card));
+        });
+
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.carousel-item');
+        let autoPlayInterval;
+
+        // 显示指定索引的图片
+        function showSlide(index) {
+            // 隐藏所有图片
+            slides.forEach((slide, i) => {
+                slide.classList.remove('active');
+                if (i === index) {
+                    slide.classList.add('active');
+                }
+            });
+        }
+
+        // 切换到下一张图片
+        function nextSlide() {
+            currentSlide = (currentSlide + 1) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // 切换到上一张图片
+        function prevSlide() {
+            currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+            showSlide(currentSlide);
+        }
+
+        // 启动自动轮播
+        function startAutoPlay() {
+            autoPlayInterval = setInterval(nextSlide, 3000); // 每3秒切换一次
+        }
+
+        // 停止自动轮播
+        function stopAutoPlay() {
+            clearInterval(autoPlayInterval);
+        }
+
+        // 初始化显示第一张图片
+        showSlide(currentSlide);
+
+        // 启动自动轮播
+        startAutoPlay();
+
+        // 当用户手动切换时，停止自动轮播
+        document.querySelector('.carousel-container').addEventListener('mouseenter', stopAutoPlay);
+        document.querySelector('.carousel-container').addEventListener('mouseleave', startAutoPlay);
+
+        function openGalleryModal(item) {
+            const modal = document.getElementById('daily-modal');
+            const modalImg = document.getElementById('daily-modal-img');
+            modal.style.display = 'flex';
+            modal.style.top ="23px";
+            modalImg.src = item.querySelector('img').src;
+        }
+
+        // 获取所有的 .gallery-item 元素
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        // 定义一个函数来生成随机的长宽比
+        function getRandomAspectRatio() {
+            const ratios = [
+                '3/2',
+                '4/3',
+                '16/9',
+                '2/1',
+                '1/1'
+            ];
+            const randomIndex = Math.floor(Math.random() * ratios.length);
+            return ratios[randomIndex];
+        }
+
+        // 为每个 .gallery-item 元素分配随机的长宽比
+        galleryItems.forEach((item) => {
+            const aspectRatio = getRandomAspectRatio();
+            item.style.aspectRatio = aspectRatio;
+        });
+
+        function closeGalleryModal() {
+            const modal = document.getElementById('daily-modal');
+            modal.style.display = 'none';
+        }
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+.timeline-container {
+    margin-top: 80px;
+    padding: 2rem;
+    background: url('../assets/images/paper-texture.jpg');
+}
+
+.timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.timeline::after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    background-color: var(--vintage-brown);
+    top: 0;
+    bottom: 0;
+    left: 50%;
+    margin-left: -3px;
+}
+
+.timeline-item {
+    padding: 10px 40px;
+    position: relative;
+    width: 50%;
+    box-sizing: border-box;
+}
+
+/* 更多时间轴样式... */ 

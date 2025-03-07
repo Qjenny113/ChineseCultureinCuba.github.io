@@ -1,0 +1,26 @@
+:root {
+    --vintage-brown: #8B4513;
+    --cream: #F5E6D3;
+    --deep-red: #8B0000;
+    --gold: #DAA520;
+    --dark-gray: #333333;
+}
+
+body {
+    margin: 0;
+    font-family: 'Ma Shan Zheng', cursive;
+    background-color: var(--cream);
+    color: var(--dark-gray);
+}
+
+/* 导航栏通用样式 */
+.nav {
+    background-color: var(--vintage-brown);
+    padding: 1rem 0;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+}
+
+/* 其他通用样式... */ 

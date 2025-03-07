@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>古巴华人文化传承</title>
+    <style>
+        :root {
+            --beige: #F5E6D3;
+            --deep-green: #2F4F4F;
+            --vintage-brown: #8B4513;
+            --gold: #DAA520;
+            --dark-gray: #333333;
+            --deep-red: #8B0000;
+            --cream: #F5E6D3;
+        }
+        /* 定义自定义字体 */
+        @font-face {
+            font-family: 'FZShiGKSJW';
+            src: url('../font/FZShiGKSJW.TTF');
+        }
+        @font-face {
+            font-family: 'FZYanSJW_Zhong';
+            src: url('../font/FZYanSJW_Zhong.ttf');
+        }
+
+        body {
+            margin: 0;
+            font-family: 'FZShiGKSJW', cursive;
+            background-color: var(--beige);
+            color: var(--dark-gray);
+            margin: 0;
+            padding: 0;
+            position: relative;
+            color: #333;
+        }
+
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('assets/img/粤剧背景图.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            z-index: -1;
+        }
+
+        /* 导航栏样式 */
+        .nav {
+            background-color: var(--vintage-brown);
+            padding: 1rem 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        .nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav li {
+            margin: 0 2rem;
+        }
+
+        .nav a {
+            color: var(--beige);
+            text-decoration: none;
+            font-size: 1.2rem;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: var(--gold);
+        }
+
+        /* 主要内容区域 */
+        .hero {
+            margin-top: 20px;
+            height: 100vh;
+            background: url('assets/vintage-texture.jpg') center/cover;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+
+        }
+
+        /* 保留原大标题样式 */
+        .hero-content {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(245, 230, 211, 0.579);
+            border-radius: 10px;
+            max-width: 800px;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            color: var(--vintage-brown);
+            margin-bottom: 1rem;
+        }
+
+        .hero-text {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .cta-button {
+            background-color: var(--deep-green);
+            color: var(--beige);
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-family: 'FZYanSJW_Zhong';
+        }
+
+        .cta-button:hover {
+            background-color: var(--gold);
+        }
+
+        /* 装饰元素 */
+        .decorative-element {
+            position: absolute;
+            opacity: 0.2;
+        }
+
+        .lantern {
+            top: 20px;
+            right: 50px;
+            width: 100px;
+        }
+
+        .chinese-pattern {
+            bottom: 20px;
+            left: 50px;
+            width: 150px;
+        }
+
+        .fullpage-container {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .story-section {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+                url('assets/vintage-paper.jpg') center/cover;
+            opacity: 0;
+            transition: transform 0.8s ease, opacity 0.8s ease;
+            transform: translateY(100%);
+        }
+
+        .story-section.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* 主体场景图样式 */
+        .scene-container {
+            position: relative;
+            max-width: 1200px;
+            margin: 50px auto;
+            text-align: center; /* 让场景图在容器内水平居中 */
+        }
+
+        .scene-image {
+            width: 85%; /* 使用百分比确保按比例缩放 */
+            height: auto; /* 保持图片的宽高比 */
+            display: block;
+            margin: 0 auto; /* 水平居中场景图 */
+            content: url('assets/img/唐人街横长图.jpg');
+            z-index: 1; /* 为场景图设置一个较小的 z-index 值 */
+            border-radius: 10px; /* 添加圆角，可根据需求调整数值 */
+        }
+
+        .object {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background-color: rgba(255, 255, 255, 0.5);
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2), 0 6px 20px rgba(0, 0, 0, 0.19);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            background: radial-gradient(circle at 30% 30%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.3));
+            z-index: 2;
+            transform: translate(-50%, -50%); /* 让气泡的中心对准设定的 top 和 left 位置 */
+        }
+
+        .object-info {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: none;
+            z-index: 1;
+            top: 120%;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+        }
+        /* 文化卡片样式 */
+        .culture-card {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fffadf;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgb(255, 255, 255);
+            padding: 20px;
+            width: 40%;
+            max-width: 500px;
+            max-height: 60vh;
+            overflow-y: auto;
+            flex-direction: column;
+            display: none;
+            z-index: 4;
+        }
+
+        .culture-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            margin-bottom: 10px;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .culture-card h2 {
+            color: #8B0000;
+            margin-bottom: 5px;
+        }
+
+        .culture-card p {
+            line-height: 1.6;
+            color: #333;
+            margin-bottom: 5px;
+            text-indent: 2em; /* 首行缩进 */
+            position: relative;
+        }
+
+        /* 遮罩层样式 */
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            z-index: 1;
+        }
+
+        /* 新增：书页滑动样式 */
+        .book-slider {
+            position: relative;
+            width: 80%;
+            margin: 20px auto;
+            overflow: hidden;
+        }
+
+        .book-pages {
+            display: flex;
+            width: max-content;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .book-page {
+            min-width: 300px;
+            height: 250px; /* 增加高度以容纳文字介绍 */
+            margin-right: 20px;
+            background-size: cover;
+            background-position: center;
+            background-color: #f5ebd2;
+            position: relative;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* 为书页添加阴影 */
+            transition: box-shadow 0.3s ease; /* 阴影过渡效果 */
+            border: 2px solid transparent; /* 添加透明边框 */
+            cursor: pointer; /* 鼠标指针变为手型 */
+            border-radius: 10px; /* 为书页添加圆角 */
+            overflow: hidden; /* 确保图片和内容也遵循圆角 */
+        }
+
+        .book-page:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2); /* 鼠标悬停时增强阴影 */
+            border-color: #333; /* 鼠标悬停时显示边框 */
+        }
+
+        .book-page img {
+            width: 100%;
+            height: 200px; /* 调整图片高度 */
+            object-fit: cover;
+            border-radius: 10px 10px 0 0; /* 图片顶部圆角与书页一致 */
+        }
+
+        /* 文字介绍样式 */
+        .book-page-description {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            /* 半透明渐变背景 */
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.3));
+            color: rgb(255, 255, 255);
+            padding: 10px 15px; /* 增加内边距 */
+            text-align: center;
+            font-family: 'FZShiGKSJW';/* 更换字体 */
+            font-size: 16px; /* 增大字体大小 */
+            line-height: 1.4; /* 调整行高 */
+            opacity: 0.8; /* 初始透明度 */
+            transition: opacity 0.3s ease; /* 透明度过渡效果 */
+            border-top-left-radius: 8px; /* 左上角圆角 */
+            border-top-right-radius: 8px; /* 右上角圆角 */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* 添加文字阴影 */
+        }
+
+        .book-page:hover .book-page-description {
+            opacity: 1; /* 鼠标悬停时完全显示 */
+        }
+        /* 为故事内容添加首行缩进样式 */
+        #story-content p {
+            text-indent: 2em;
+            margin: 0;
+            line-height: 1.6;
+        }
+        /* 滑动按钮样式 */
+        .slide-button {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background-color: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            z-index: 10;
+            border-radius: 50%; /* 按钮圆角 */
+            transition: background-color 0.3s ease; /* 背景颜色过渡效果 */
+        }
+
+        .slide-button:hover {
+            background-color: rgba(0, 0, 0, 0.7); /* 鼠标悬停时加深背景颜色 */
+        }
+
+        .slide-button.prev {
+            left: 0;
+        }
+
+        .slide-button.next {
+            right: 0;
+        }
+
+/* 故事卡片样式 */
+        .story-card {
+            /* 初始隐藏卡片 */
+            display: none;
+            /* 固定定位，使其相对于浏览器窗口定位 */
+            position: fixed;
+            /* 垂直居中 */
+            top: 50%;
+            /* 水平居中 */
+            left: 50%;
+            /* 精确居中调整 */
+            transform: translate(-50%, -50%);
+            /* 卡片背景色 */
+            background-color: #fffadf;
+            /* 卡片圆角 */
+            border-radius: 15px;
+            /* 卡片阴影，增强层次感 */
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.25), 0 3px 6px rgba(0, 0, 0, 0.2);
+            /* 卡片内边距 */
+            padding: 45px;
+            /* 卡片宽度 */
+            width: 65%;
+            /* 最大宽度限制 */
+            max-width: 580px;
+            /* 最大高度限制，占视口高度的 75% */
+            max-height: 75vh;
+            /* 垂直方向溢出时显示滚动条 */
+            overflow-y: auto;
+            /* 滚动条样式 */
+            scrollbar-width: thin;
+            scrollbar-color: #999 #fffadf;
+            /* 卡片层级，确保显示在其他元素之上 */
+            z-index: 100;
+            /* 过渡效果，使卡片显示和隐藏更平滑 */
+            transition: all 0.3s ease-in-out;
+            /* 动画效果，淡入显示 */
+            animation: fadeIn 0.3s ease;
+        }
+        .story-card img {
+            width: 100%; /* 将图片宽度设置为 100%，使其撑满容器 */
+            height: auto; /* 保持图片的宽高比 */
+            margin: 0;
+            padding: 0;
+            border-radius: 10px;
+            box-sizing: border-box;
+            position: relative;
+            display: block; /* 确保图片以块级元素显示 */
+            margin: 0 auto; /* 左右外边距自动分配 */
+        }
+        /* 淡入动画 */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translate(-50%, -50%) scale(0.9);
+            }
+            to {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+        }
+
+        .story-card h2 {
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center; /* 新增属性，使文本水平居中 */
+            font-size: 23px;
+        }
+
+        .story-card p {
+            line-height: 1.6;
+            color: #666;
+            text-indent: 2em; /* 设置段落首行缩进 2 个字符 */
+            font-size: 17px;
+        }
+        .story-card p br + ::before {
+            content: "";
+            display: inline-block;
+            width: 2em;
+        }
+    </style>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+    <nav class="nav">
+        <ul>
+            <li><a href="../index.html">首页</a></li>
+            <li><a href="./history.html">历史</a></li>
+            <li><a href="./culture.html">文化</a></li>
+            <li><a href="./stories.html">华人故事</a></li>
+        </ul>
+    </nav>
+
+    <!-- 音乐控制按钮 -->
+    <button id="music-toggle">
+        <i class="fa-solid fa-music"></i>
+    </button>
+    <!-- 音频元素 -->
+    <audio id="background-music" src="../bgm/华风古巴韵-2.mp3" loop></audio>
+
+    <!-- 大标题部分 -->
+    <main class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">中华文化传承与融合</h1>
+            <p class="hero-text">
+                自 1847 年首批华工抵达古巴，近 17 万华人在加勒比海畔书写了跨越三个世纪的奋斗史诗。他们在甘蔗园中挥洒汗水，在独立战争中浴血奋战，更以勤劳智慧创造了独具特色的 “奇诺 - 古巴” 文化 —— 从粤剧戏服的金绣银线到关公信仰的跨文化演变，从融合岭南特色的唐人街建筑到 “针灸 + 臭氧” 的中西医结合疗法，中华文明与拉美风情在此交织共生。
+                <br>然而，这份文化遗产正面临严峻挑战
+            </p>
+            <button class="cta-button" id="exploreButton">感受古巴的中国文化</button>
+        </div>
+    </main>
+
+    <div class="scene-container" id="scene-container">
+        <img class="scene-image" src="assets/img/唐人街横长图.jpg" alt="唐人街场景图">
+        <div class="object" data-card="yueju" style="top: 60%; left: 30%;">
+            <div class="object-info">粤剧</div>
+        </div>
+        <div class="object" data-card="spring" style="top: 30%; left: 50%;">
+            <div class="object-info">庆祝春节</div>
+        </div>
+        <div class="object" data-card="guangong" style="top: 65%; left: 80%;">
+            <div class="object-info">关公信仰</div>
+        </div>
+    </div>
+
+    <div class="culture-grid">
+        <!-- 粤剧部分 -->
+        <div class="culture-card" data-card="yueju">
+            <img src="assets/img/文化-粤剧.jpeg" alt="粤剧表演">
+            <div class="text-content">
+                <h2>粤剧艺术</h2>
+                <p style="text-indent: 2em;">历史上，在古巴的华人很多来自广东，唱粤剧、听粤剧是他们庆祝春节的重要方式。全盛时期，唐人街的上海、金鹰、新民等几间戏院每星期都有粤剧上演，戏班也会到古巴不同城市走埠巡演，亦有外埠来访明星小燕飞，粤剧名伶苏州丽等登台演出。</p>
+                <p style="text-indent: 2em;">如今，虽然没有像过去那样大规模的专业粤剧戏院和剧团，但粤剧在古巴仍有一定的活动和传承。</p>
+                <p style="text-indent: 2em;">例如，2024年哈瓦那大学孔子学院举办的“中国曲艺丝路欢歌”中秋专场演出中就有粤曲节目。
+                2025年新春之际哈瓦那中国城举办了粤剧展览，展示了近一个世纪前的粤剧团演出服饰、道具和老照片。</p>
+                <p style="text-indent: 2em;font-weight: 800;font-size:17px">“对于中国人，尤其是广东人来说，欣赏粤剧是一种充满喜悦和庆祝的时刻。”</p>
+                <p style="text-indent: 2em;">展览主策人、中国传统和艺术之家主任特蕾莎·李说。</p>
+                <p style="text-indent: 2em;">此外，纪录片《古巴花旦》让古巴粤剧故事重新走进公众视线，也在一定程度上推动了粤剧文化的传播。</p>
+                </p>
+            </div>
+        </div>
+
+        <!-- 关公信仰部分 -->
+        <div class="culture-card" data-card="guangong">
+            <img src="assets/img/关公信仰.jpeg" alt="关公像">
+            <div class="text-content">
+                <h2>关公信仰</h2>
+                <p>
+                <p style="text-indent: 2em;">在古巴，经与当地信俗融合，关公成为当地人独具特色的神明。</p> 
+                <p style="text-indent: 2em;">19世纪，超十万青壮男性华工被贩运至古巴，在甘蔗田、烟草园过着奴隶般艰苦生活，死亡率高。他们凭借互相扶持及生死与共的勇气存活，相较佛祖、吕祖，拜关公更契合。另外，当时古巴为西班牙属地，天主教盛行，打压其他信仰。华工起初随黑奴将红脸、持斧的非洲神祇Changó当作关公祭拜，后才公开拜关公。</p> 
+                <p style="text-indent: 2em;">如今，夏湾拿华区有两个关公厅。中华总会馆内的关公像铸于光绪十九年，由广州运来，已成为古巴政府保护的文物。而龙岗总会的关公厅面积更大，神坛挂着织有刘关张赵议事图像的缂丝，安放着刘、关、张、赵及诸葛亮的神位。</p> 
+                <p style="text-indent: 2em;">现在，华人遇喜事会到关公厅拜祭，古巴人也会来敬拜，称关公“San Fan Con”，赞其灵验。</p> 
+                </p> 
+            </div>
+        </div>
+
+        <!-- 春节庆典部分 -->
+        <div class="culture-card" data-card="spring">
+            <img src="assets/img/春节表演.jpg" alt="春节庆典">
+            <div class="text-content">
+                <h2>庆祝春节</h2>
+                <p>
+                <p style="text-indent: 2em;">春节是古巴华人社区最重要的节日之一，庆祝活动通常包括舞狮、舞龙、粤剧表演、挂灯笼、贴春联等。</p>
+                <p style="text-indent: 2em;">2025年春节期间，巴拿马首都巴拿马城老城区的唐人街张灯结彩，喜庆洋溢。放鞭炮、祭祖先、吃年夜饭……在远隔太平洋的彼岸，到处是浓浓的“年味儿”。</p>
+                <p style="font-weight: 800;font-size:17px">“传统上，巴拿马的华人总是与家人以及华人社群在唐人街一起庆祝春节。随着时间推移，巴拿马的华人社区逐渐扩展，庆祝春节的传统也得到延续。”</p>
+                <p style="text-indent: 2em;">巴拿马中华民族委员会副秘书长桑德拉·陈说。</p>
+                </p>
+            </div>
+        </div>
+    </div>
+
+<br><br>
+
+    <!-- 新增：书页滑动HTML结构 -->
+    <div class="book-slider">
+        <!-- 上一页按钮，绑定 prevPage 函数用于切换到上一页 -->
+        <button class="slide-button prev" onclick="prevPage(event)">&lt;</button>
+        <div class="book-pages">
+            <!-- 第一个缩略图 -->
+            <div class="book-page" data-story="La Caridad 是纽约市最后的奇诺古巴餐厅之一，已经为上西区服务了 43 年。<br>
+                古巴中国美食文化起源于 19 世纪末的移民潮。约 15 万中国劳工抵达古巴后，将本土食材（如猪肉、黑豆、木薯）与中式烹饪技法结合，创造出兼具咸鲜与酸甜风味的独特菜肴。<br>
+                哈瓦那的 “唐人街” 曾是这一文化的中心，聚集百余家餐馆，供应炒面、杂碎等改良中餐。<br>
+                随着古巴华人移民美国，纽约的 “奇诺 - 古巴” 餐厅（如 La Caridad）成为文化地标。然而，受移民老龄化、新移民减少及年轻一代传承意愿下降影响，这一饮食文化一度濒临消失。"
+                data-image="assets/img/文化-饮食.jpg">
+                <!-- 缩略图图片 -->
+                <img src="assets/img/文化-略缩图1-饮食.jpeg" alt="缩略图1">
+                <!-- 缩略图下方的文字描述 -->
+                <div class="book-page-description">
+                    "融合与消逝"<br>古巴中国饮食文化的困境
+                </div>
+            </div>
+            <!-- 第二个缩略图 -->
+            <div class="book-page" data-story="19 世纪中叶，契约华工抵达古巴，在哈瓦那逐渐形成社区，开办饭馆、商铺等，唐人街成为重要商业区，建筑融合岭南风格与热带特色。<br>
+            如今哈瓦那唐人街虽有牌坊、中式招牌等外观，但华人稀少，中餐馆多由古巴人经营，菜品本地化，部分建筑改为旅游商铺，如《光华报》旧址仅存空壳。资金短缺与技术不足致使木雕、彩绘等传统工艺持续损毁，年轻一代对建筑文化认知薄弱，传统营造技艺濒临失传。"
+            data-image="assets/img/文化-建筑.jpg">
+                <img src="assets/img/文化-略缩图2-建筑.png" alt="缩略图2">
+                <div class="book-page-description">
+                    "古巴唐人街建筑"<br>从繁荣到符号化的存续困境
+                </div>
+            </div>
+            <!-- 第三个缩略图 -->
+            <div class="book-page" data-story="19 世纪中叶，广东华工将粤语带入古巴，形成早期华人社区语言基础，并通过粤剧等活动传播文化。20 世纪中期，西班牙语普及导致粤语式微，年轻一代逐渐转向西班牙语。21 世纪以来，中古友好关系推动中文教育发展：2009 年哈瓦那大学孔子学院成立，培养超 4000 名学员；2020 年汉语正式纳入古巴中学教育体系。<br>
+                华人社团通过春节活动延续语言记忆，年轻一代借助 “汉语桥” 竞赛展现热情。这一转变既留存移民历史痕迹，也强化了当代文化纽带，但方言存续仍面临代际断层挑战，比如古巴现有的汉语教学师资力量都集中在哈瓦那大学孔子学院，像中华总会馆这样的民间团体很难聘请到专业教师。所以，推广移民后代的华文教育，只有一步一个脚印，循序渐进。" 
+            data-image="assets/img/文化-语言.jpg">
+                <img src="assets/img/文化-略缩图3-语言.jpg" alt="缩略图3">
+                <div class="book-page-description">
+                    "从粤语到普通话"<br>古巴中文教育的传承断层与代际危机
+                </div>
+            </div>
+            <!-- 第四个缩略图 -->
+            <div class="book-page" data-story="中医于 19 世纪中叶随华工传入古巴，1970 年代古巴医生阿尔瓦雷斯・迪亚斯赴华研习后开创本土实践。1995 年中医纳入古巴医学教育体系，中国专家持续协助培养人才，推动针灸、拔罐等疗法融入社区医疗，年诊疗量超 400 万人次，并衍生出 “针灸 + 臭氧注射” 等中西医结合方案。2014 年起中古定期举办 “中医周” 深化合作。<br>
+                然而，中医师培养周期长与政府优先外派西医创汇导致人才断层，全国 169 个中医培训中心自 2004 年逐渐萎缩；同时，古巴卫生部引入顺势疗法、草药疗法等替代医学，加剧资源竞争，削弱中医在传统医学中的地位。
+                <br>这种政策与文化认同的双重困境，制约了中医在古巴的深层文化传承。" 
+            data-image="assets/img/文化-中医.jpg">
+                <img src="assets/img/文化-略缩图4-中医.jpg" alt="缩略图4">
+                <div class="book-page-description">
+                    "跨越世纪的健康纽带"<br>中医在古巴的发展与挑战
+                </div>
+            </div>
+            <!-- 第五个缩略图 -->
+            <div class="book-page" data-story="中国武术自 19 世纪随华工传入古巴，1995 年华裔武术家李荣富创办哈瓦那武术学校，以公益形式传授太极拳、气功等，学员覆盖全国各省达 1.5 万人，并与哈瓦那大学孔子学院合作形成 “武术 + 汉语” 双向教学模式。<br>
+                武术不仅成为古巴民众强身健体的选择，更通过国际赛事等活动成为中古友谊象征。<br>
+                然而，其发展面临师资力量薄弱（专业教练稀缺、年轻人才断层，教学依赖非科班兼职教师）和政策支持不足等困境（政府资金投入有限，未将武术纳入国民教育体系，学校运营依赖民间资源）。<br>
+                这种 “民间热、官方冷” 的矛盾，也一定程度上制约了中华武学在加勒比地区的深层文化传承。"
+            data-image="assets/img/文化-武术.jpg">
+                <img src="assets/img/文化-略缩图5-武术.jpg" alt="缩略图5">
+                <div class="book-page-description">
+                    "古巴土地上的中国武术"<br>辉煌背后的艰难前行
+                </div>
+            </div>
+            <!-- 第六个缩略图 -->
+            <div class="book-page" data-story="中国书法作为中华文化的瑰宝，在古巴通过教育与文化交流展现独特魅力。<br>
+                哈瓦那大学孔子学院定期举办 “兰亭雅集” 主题活动，以讲座形式梳理书法从甲骨文到行书的演变史，结合实物展示文房四宝的使用方法，引导参与者感受线条韵律与哲学内涵。<br>
+                2024 年 10 月的活动中，志愿者教师通过有奖问答与现场书写体验，吸引古巴民众亲身体验书法艺术，甚至用毛笔书写中文名，传递文化交融的温度。<br>
+                此外，书法还融入古巴社会生活：在使馆开放日、春节庙会等活动中，民众通过书法体验加深对中国文化的认知。如古巴人华金曾请华裔少年梁孝辉书写家人中文名，将书法作品视为珍贵礼物。但是书法文化目前主要依赖孔子学院的志愿者教师等外来力量进行教学，难以形成长期、稳定、系统的教育体系。"
+            data-image="assets/img/文化-书法.jpg">    
+            <img src="assets/img/文化-略缩图6-书法.jpeg" alt="缩略图6">
+                <div class="book-page-description">
+                    "墨香异域"<br>古巴书法教育的依赖
+                </div>
+            </div>
+            <!-- 第七个缩略图 -->
+            <div class="book-page" data-story="华裔艺术家邝秋云作为古巴国家造型艺术奖得主，将水墨技法与加勒比风情融合，其作品《戴口罩的热带女郎》被古巴国家美术馆收藏并多次作为国礼赠外宾。<br>
+                2014 年的 “走进拉美 — 当代中国美术作品展”、2019 年的哈瓦那双年展 “中国单元” 及 2012 年的 “中国传统绘画展” 等活动，推动了中国绘画在古巴的传播。<br>
+                然而，其存续面临文化传承主体减少，古巴华侨华人数量锐减且中文使用断层、文化纽带断裂（如古巴中华总会馆《光华报》停刊、汉语班停办等）等等问题。<br>
+                这些导致中国绘画在古巴依赖短期展览与个人影响力，尚未形成本土教育体系。"
+            data-image="assets/img/文化-绘画.jpg">
+                <img src="assets/img/文化-略缩图7-绘画.jpg" alt="缩略图7">
+                <div class="book-page-description">
+                    "从邝秋云到双年展"<br>中国绘画的古巴困局
+                </div>
+            </div>
+            <!-- 第八个缩略图 -->
+            <div class="book-page" data-story="古巴华人组织以中华总会馆为核心，形成覆盖全国的社群网络。作为古巴历史最悠久的华人社团，中华总会馆自 1893 年成立以来，始终承担着维护侨胞权益、传承中华文化的使命。其下辖 13 个分会馆，分布于哈瓦那及各省，为侨胞提供法律援助、医疗保障及经济补助，尤其关注老年群体的生活需求。<br>
+                文化传承方面，总会馆曾开设华文班、太极拳课程及中医诊疗，并通过《光华报》等平台传播中华文化，即便在 1960 年代政策冲击下仍以地下形式存续，1990 年代后逐步恢复公开活动。<br>
+                近年来，与洪门民治党等侨团合作举办春节庆典、文化讲座，成为中古民间交流的桥梁。<br>
+                然而，如中华总会馆组织仍面临多重现实困境：社群规模萎缩，目前旅古华侨华人不足 150 人且普遍高龄，新移民仅数十人；文化传承断层，华文教育因师资匮乏停办，《光华报》虽于 2022 年复刊，但读者群体有限；经济压力凸显，会馆经营的医疗室因药品短缺难以为继，活动资金依赖侨胞捐赠与政府有限支持。<br>
+                尽管近年通过与哈瓦那大学孔子学院合作等方式尝试突破，但系统性传承机制尚未建立，侨社发展后继乏力。" 
+            data-image="assets/img/文化-组织.jpg">
+                <img src="assets/img/文化-略缩图8-组织.jpg" alt="缩略图8">
+                <div class="book-page-description">
+                    "哈瓦那的华人灯塔"<br>中华总会馆的黄昏与希望
+                </div>
+            </div>
+        </div>
+        <!-- 下一页按钮，绑定 nextPage 函数用于切换到下一页 -->
+        <button class="slide-button next" onclick="nextPage(event)">&gt;</button>
+    </div>
+
+    <!-- 遮罩层，点击时调用 closeStoryCard 函数关闭故事卡片 -->
+    <div class="overlay" onclick="closeStoryCard()"></div>
+
+    <!-- 故事卡片，用于显示点击缩略图对应的详细故事 -->
+    <div class="story-card">
+        <!-- 故事标题 -->
+        <h2 id="story-title"></h2>
+        <!-- 新增：用于显示图片的 img 元素 -->
+        <img id="story-image" style="margin-bottom: 10px;" alt="故事图片">
+        <!-- 故事内容 -->
+        <p id="story-content"></p>
+    </div>
+
+<br><br>
+
+    <div class="overlay" id="overlay">
+
+    </div>
+    <script>
+        // 获取音乐按钮和音频元素
+        const musicToggle = document.getElementById('music-toggle');
+        const backgroundMusic = document.getElementById('background-music');
+
+        // 检查本地存储，恢复音乐播放状态
+        const isPlaying = localStorage.getItem('isPlaying') === 'true';
+        if (isPlaying) {
+            backgroundMusic.play();
+            musicToggle.classList.add('playing');
+        }
+
+        // 给音乐按钮添加点击事件监听器
+        musicToggle.addEventListener('click', function () {
+            if (backgroundMusic.paused) {
+                backgroundMusic.play();
+                this.classList.add('playing');
+                localStorage.setItem('isPlaying', 'true');
+            } else {
+                backgroundMusic.pause();
+                this.classList.remove('playing');
+                localStorage.setItem('isPlaying', 'false');
+            }
+        });
+
+        // 页面卸载时保存音乐播放状态
+        window.addEventListener('beforeunload', function () {
+            localStorage.setItem('isPlaying', backgroundMusic.paused ? 'false' : 'true');
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const music = document.getElementById('background-music');
+            const musicToggle = document.getElementById('music-toggle');
+            const musicIcon = document.getElementById('music-icon');
+            let hasInteracted = sessionStorage.getItem('hasInteracted') === 'true';
+
+            if (hasInteracted) {
+            music.play();
+            musicIcon.classList.add('playing');
+            }
+
+            // 监听页面上的所有点击事件
+            document.addEventListener('click', function handleFirstInteraction(event) {
+            if (!hasInteracted) {
+                music.play();
+                musicIcon.classList.add('playing');
+                hasInteracted = true;
+                sessionStorage.setItem('hasInteracted', 'true');
+                // 移除事件监听器，确保只在第一次互动时播放音乐
+                document.removeEventListener('click', handleFirstInteraction);
+            }
+            });
+
+            // 点击图标暂停/播放音乐
+            musicToggle.addEventListener('click', function() {
+            if (music.paused) {
+                music.play();
+                musicIcon.classList.add('playing');
+            } else {
+                music.pause();
+                musicIcon.classList.remove('playing');
+            }
+            });
+        });
+
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+        const exploreButton = document.getElementById('exploreButton');
+        const sceneContainer = document.getElementById('scene-container');
+
+        if (exploreButton && sceneContainer) {
+            exploreButton.addEventListener('click', function () {
+                sceneContainer.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            });
+        }
+    });
+
+        const objects = document.querySelectorAll('.object');
+        const cultureCards = document.querySelectorAll('.culture-card');
+        const overlay = document.getElementById('overlay');
+
+        objects.forEach(object => {
+            object.addEventListener('click', () => {
+                const cardId = object.dataset.card;
+                const card = Array.from(cultureCards).find(c => c.dataset.card === cardId);
+                if (card) {
+                    card.style.display = 'flex';
+                    overlay.style.display = 'block';
+                }
+            });
+
+            object.addEventListener('mouseover', () => {
+                const info = object.querySelector('.object-info');
+                info.style.display = 'block';
+            });
+
+            object.addEventListener('mouseout', () => {
+                const info = object.querySelector('.object-info');
+                info.style.display = 'none';
+            });
+        });
+
+        overlay.addEventListener('click', () => {
+            cultureCards.forEach(card => {
+                card.style.display = 'none';
+            });
+            overlay.style.display = 'none';
+        });
+
+
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const bookPages = document.querySelector('.book-pages');
+            const pageWidth = 320; // 单个书页宽度（包含 margin）
+            let currentIndex = 1; // 初始索引设为 1，因为开头插入了复制的最后一个元素
+            const originalTotalPages = bookPages.children.length;
+            const totalPages = originalTotalPages + 2; // 加上复制的两个元素
+
+            // 复制第一个和最后一个元素
+            const firstPage = bookPages.firstElementChild.cloneNode(true);
+            const lastPage = bookPages.lastElementChild.cloneNode(true);
+            bookPages.appendChild(firstPage);
+            bookPages.insertBefore(lastPage, bookPages.firstElementChild);
+
+            // 初始位置设置
+            bookPages.style.transform = `translateX(-${currentIndex * pageWidth}px)`;
+
+            function autoSlide() {
+                currentIndex++;
+                updateSlidePosition();
+            }
+
+            function updateSlidePosition() {
+                bookPages.style.transform = `translateX(-${currentIndex * pageWidth}px)`;
+                bookPages.style.transition = 'transform 0.5s ease-in-out';
+            }
+
+            // 每 3 秒自动滑动一次，可按需调整
+            let slideInterval = setInterval(autoSlide, 3000);
+
+            function prevPage(event) {
+                event.stopPropagation();
+                console.log('点击了上一页按钮');
+                clearInterval(slideInterval);
+                currentIndex = (currentIndex - 1 + totalPages) % totalPages; // 确保索引在有效范围内
+                updateSlidePosition();
+                slideInterval = setInterval(autoSlide, 3000);
+            }
+
+            function nextPage(event) {
+                event.stopPropagation();
+                console.log('点击了下一页按钮');
+                clearInterval(slideInterval);
+                currentIndex = (currentIndex + 1) % totalPages; // 确保索引在有效范围内
+                updateSlidePosition();
+                slideInterval = setInterval(autoSlide, 3000);
+            }
+
+            // 处理过渡结束事件，实现无缝循环
+            bookPages.addEventListener('transitionend', function () {
+                if (currentIndex === totalPages - 1) {
+                    currentIndex = 1;
+                    bookPages.style.transform = `translateX(-${currentIndex * pageWidth}px)`;
+                    bookPages.style.transition = 'none';
+                } else if (currentIndex === 0) {
+                    currentIndex = originalTotalPages;
+                    bookPages.style.transform = `translateX(-${currentIndex * pageWidth}px)`;
+                    bookPages.style.transition = 'none';
+                }
+            });
+
+            // 将 prevPage 和 nextPage 函数暴露到全局作用域
+            window.prevPage = prevPage;
+            window.nextPage = nextPage;
+
+            // 点击书页显示故事卡片
+            const bookPageElements = document.querySelectorAll('.book-page');
+                const storyCard = document.querySelector('.story-card');
+                const overlay = document.querySelector('.overlay');
+                const storyTitle = document.getElementById('story-title');
+                const storyImage = document.getElementById('story-image'); // 确保这个变量名正确
+                const storyContent = document.getElementById('story-content');
+
+                bookPageElements.forEach(page => {
+                    page.addEventListener('click', function () {
+                        const story = this.dataset.story;
+                        const description = this.querySelector('.book-page-description').textContent;
+                        const imageSrc = this.dataset.image; // 获取图片地址
+                        storyTitle.textContent = description;
+                        storyImage.src = imageSrc; // 设置图片地址
+                        // 新增代码，处理故事内容，添加首行缩进效果
+                        const paragraphs = story.split('<br>').map(p => `<p>${p.trim()}</p>`).join('');
+                        storyContent.innerHTML = paragraphs;
+                        storyCard.style.display = 'block';
+                        overlay.style.display = 'block';
+
+                        // 动态修改图片大小
+                        storyImage.style.maxWidth = '80%'; // 调整为你想要的宽度百分比
+                        storyImage.style.height = 'auto';
+                    });
+                });
+
+                // 关闭故事卡片
+                window.closeStoryCard = function () {
+                    storyCard.style.display = 'none';
+                    overlay.style.display = 'none';
+                };
+            });
+    </script>
+    
+</body>
+
+</html>

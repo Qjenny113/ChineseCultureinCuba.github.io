@@ -1,0 +1,64 @@
+.stories-section {
+    background-color: #f5f2e9; /* 米黄色背景 */
+    padding: 2rem;
+}
+
+.book-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.story-page {
+    background-color: #fff;
+    border: 1px solid #8b7355; /* 复古棕色边框 */
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.story-preview {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 2rem;
+}
+
+.story-preview img {
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+.story-intro {
+    color: #444444; /* 深灰色文字 */
+}
+
+.read-more {
+    background-color: #2c5530; /* 深绿色按钮 */
+    color: #fff;
+    border: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.gallery-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-top: 2rem;
+}
+
+.gallery-item {
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.3s;
+}
+
+.gallery-item:hover {
+    transform: scale(1.05);
+}
+
+.gallery-item img {
+    width: 100%;
+    height: auto;
+    border: 2px solid #c5a572; /* 金色边框 */
+} 
