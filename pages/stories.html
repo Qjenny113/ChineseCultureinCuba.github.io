@@ -91,7 +91,46 @@
         .nav a:hover {
             color: var(--gold);
         }
+        /* === 替换原有音乐控制样式 === */
+        .nav .music-control {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
+        .music-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--gold);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        /* 播放状态显示为暂停符号 */
+        .music-btn.playing::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 24px;
+            background: var(--deep-red);
+            left: 12px;
+            top: 4px;
+        }
+
+        /* 暂停状态显示为播放三角形 */
+        .music-btn:not(.playing)::after {
+            content: "";
+            position: absolute;
+            border-left: 16px solid var(--deep-red);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            left: 10px;
+            top: 8px;
+        }
         /* 主要内容区域 */
         .hero {
             margin-top: 20px;
@@ -601,24 +640,22 @@
             }
         }
     </style>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <nav class="nav">
         <ul>
             <li><a href="../index.html">首页</a></li>
-            <li><a href="./history.html">历史</a></li>
-            <li><a href="./culture.html">文化</a></li>
-            <li><a href="./stories.html">华人故事</a></li>
+            <li><a href="history.html">历史</a></li>
+            <li><a href="culture.html">文化</a></li>
+            <li><a href="stories.html">华人故事</a></li>
+            <!-- 新增音乐控制按钮 -->
+            <li class="music-control">
+                <button id="music-toggle" class="music-btn paused">
+                    <div class="music-icon"></div>
+                </button>
+            </li>
         </ul>
     </nav>
-
-    <!-- 音乐控制按钮 -->
-    <button id="music-toggle">
-        <i class="fa-solid fa-music"></i>
-    </button>
-    <!-- 音频元素 -->
-    <audio id="background-music" src="../bgm/华风古巴韵-2.mp3" loop></audio>
 
     <main class="hero">
         <div class="hero-content">
@@ -656,6 +693,8 @@
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然而，岁月无情，随着时间的流逝，他与家人的联系渐渐中断。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;《古巴唐人》作者得知他的情况后，积极地试图帮助他寻找家人，可惜由于各种复杂的原因，最终未能如愿。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在文化传承方面，黄民达与故乡亲人失联，使得他无法将故乡的文化和情感传递给下一代，出现了文化传承代际衔接的断裂，他所坚守的中国文化在异国难以找到传承的依托。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 【故事源自《古巴唐人》P75 - “相信能在古巴找到唐人”篇】
                             </p>
                         </div>
                     </div>
@@ -676,6 +715,8 @@
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈典穗与子女的关系十分亲密，他努力工作，用自己的双手撑起这个家。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在生活中，他还教子女一些中文和广东菜的做法，每逢圣涎节、除夕等节日，一家人聚在一起，充满了温馨与欢乐。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;他用自己的善良和包容，为这个家庭营造了一个充满爱的港湾。即便生活充满了艰辛，他也始终坚守在家人身边，展现了古巴华人在异国他乡对家庭的高度重视和无私奉献。虽然陈典穗努力教子女中文和广东菜做法，传递中国文化，但是子女对中国文化的接受程度有限。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;【故事源自《古巴唐人》P81 - “不要离开家，不然我会死”篇】
                             </p>
                         </div>
                     </div>
@@ -698,7 +739,9 @@
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;除了在报社的工作，他还担任中华总会馆财务等重要职务，管理着老侨登记资料，为古巴华人社区的事务默默奉献着自己的力量，见证了古巴华人社区的变迁。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;赵文立所坚守的《光华报》停刊，使古巴华人文化传播失去了重要阵地。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;虽然他在中华总会馆任职，但随着华人社会的凋零，文化传承工作难以开展，面临着文化传播渠道受阻的困境。
-                        </div>
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;【故事源自《古巴唐人》P158 -  “《光华报》和它的最后一位主编”篇】
+                            </div>
                     </div>
                 
                     <!-- 卡片4 -->
@@ -718,6 +761,8 @@
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;最终，吴帝胄回到了家乡广东新会。在故乡，他见到了从未谋面的亲人，参观了祖屋和吴氏宗祠，儿时父亲讲述的家乡景象如今真实地呈现在眼前，多年的心愿得以实现。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;这一经历深刻地体现了他对故乡的深深思念和对自己华人身份的强烈认同，无论身处何方，故乡始终是其心灵的归宿。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;然而，古巴社会变革使华人文化社区逐渐衰落，吴帝胄虽试图记录华人在古巴的历史，努力传承文化，但在大环境的影响下，他的力量仍显得单薄
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;【故事源自《古巴唐人》P142 - “我们把中华人民共和国国旗，插到了中华会馆的楼上”篇】
                             </p>
                         </div>
                     </div>
@@ -738,6 +783,8 @@
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;在郑集禧身上可以看到洪门在古巴华人中的影响力，以及古巴华人对洪门组织所秉持的“忠诚救国、义气团结、侠义除奸” 精神的传承和认同，这种精神成为他们在异国他乡相互扶持的精神纽带。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;但如今，洪门组织在古巴华人中的影响力大不如前，文件从中文转变成西班牙文，会员结构也发生变化，年轻一代参与度不高。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;像郑集禧这样的老一代成员逐渐减少，导致洪门文化传承出现困境，难以延续其传统精神和文化内涵。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;【故事源自《古巴唐人》P104 - “古巴洪门：忠诚救国、义气团结、侠义除奸”篇】
                             </p>
                         </div>
                     </div>
@@ -757,6 +804,8 @@
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;晚年的他生活困苦，身体状况不佳，居住环境脏乱差，但他拒绝住进离家不远的唐人老人院。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2018年，陈享财离世，他的一生充满了艰辛，却也体现了他对家乡的深深牵挂和对家庭责任的坚守，他的经历是部分古巴华人艰苦生活的真实写照。
                                 <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;陈享财一生未婚，独自在古巴打拼，生活艰苦。他与中国的联系主要是寄钱回家，在古巴缺乏传承中国文化的环境和对象，面临着个人文化传承孤立无援的困境，难以将中国文化在当地延续下去。
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;【故事源自《古巴唐人》P195 - “此后再无华人移入古巴”篇】
                             </p>
                         </div>
                     </div>
@@ -841,68 +890,61 @@
         </div>
 
     <script>
-        // 获取音乐按钮和音频元素
-        const musicToggle = document.getElementById('music-toggle');
-        const backgroundMusic = document.getElementById('background-music');
+        // ========= 全局音乐控制 =========
+        // 初始化音乐实例（所有页面共用）
+        if (!window.persistentMusic) {
+            window.persistentMusic = new Audio('../bgm/华风古巴韵-2.mp3');
+            window.persistentMusic.loop = true;
 
-        // 检查本地存储，恢复音乐播放状态
-        const isPlaying = localStorage.getItem('isPlaying') === 'true';
-        if (isPlaying) {
-            backgroundMusic.play();
-            musicToggle.classList.add('playing');
+            // 判断是否全新加载页面（通过外部链接打开）
+            const navigationEntry = performance.getEntriesByType("navigation")[0];
+            const isNewVisit = navigationEntry?.type === 'navigate';
+
+            if (isNewVisit) {
+                localStorage.setItem('musicTime', 0);
+                window.persistentMusic.currentTime = 0;
+            } else {
+                const savedTime = localStorage.getItem('musicTime') || 0;
+                window.persistentMusic.currentTime = savedTime;
+            }
+
+            const isPlaying = localStorage.getItem('musicPlaying') === 'true';
+            if (isPlaying) {
+                window.persistentMusic.play().catch(() => {});
+                document.getElementById('music-toggle').classList.add('playing');
+            }
         }
 
-        // 给音乐按钮添加点击事件监听器
-        musicToggle.addEventListener('click', function () {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
+        // 音乐按钮控制
+        document.getElementById('music-toggle').addEventListener('click', function() {
+            if (window.persistentMusic.paused) {
+                window.persistentMusic.play();
                 this.classList.add('playing');
-                localStorage.setItem('isPlaying', 'true');
+                localStorage.setItem('musicPlaying', 'true');
             } else {
-                backgroundMusic.pause();
+                window.persistentMusic.pause();
                 this.classList.remove('playing');
-                localStorage.setItem('isPlaying', 'false');
+                localStorage.setItem('musicPlaying', 'false');
             }
         });
 
-        // 页面卸载时保存音乐播放状态
-        window.addEventListener('beforeunload', function () {
-            localStorage.setItem('isPlaying', backgroundMusic.paused ? 'false' : 'true');
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const music = document.getElementById('background-music');
-            const musicToggle = document.getElementById('music-toggle');
-            const musicIcon = document.getElementById('music-icon');
-            let hasInteracted = sessionStorage.getItem('hasInteracted') === 'true';
-
-            if (hasInteracted) {
-            music.play();
-            musicIcon.classList.add('playing');
+        // 自动播放处理（首页互动后自动播放）
+        document.addEventListener('click', function initPlay() {
+            if (window.persistentMusic.paused) {
+                window.persistentMusic.play()
+                    .then(() => {
+                        document.getElementById('music-toggle').classList.add('playing');
+                        localStorage.setItem('musicPlaying', 'true');
+                    })
+                    .catch(() => {});
             }
+            document.removeEventListener('click', initPlay);
+        }, { once: true });
 
-            // 监听页面上的所有点击事件
-            document.addEventListener('click', function handleFirstInteraction(event) {
-            if (!hasInteracted) {
-                music.play();
-                musicIcon.classList.add('playing');
-                hasInteracted = true;
-                sessionStorage.setItem('hasInteracted', 'true');
-                // 移除事件监听器，确保只在第一次互动时播放音乐
-                document.removeEventListener('click', handleFirstInteraction);
-            }
-            });
-
-            // 点击图标暂停/播放音乐
-            musicToggle.addEventListener('click', function() {
-            if (music.paused) {
-                music.play();
-                musicIcon.classList.add('playing');
-            } else {
-                music.pause();
-                musicIcon.classList.remove('playing');
-            }
-            });
+        // 保存播放状态
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('musicTime', window.persistentMusic.currentTime);
+            localStorage.setItem('musicPlaying', !window.persistentMusic.paused);
         });
         
 

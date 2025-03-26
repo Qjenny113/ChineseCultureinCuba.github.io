@@ -81,6 +81,46 @@
         .nav a:hover {
             color: var(--gold);
         }
+        /* === 替换原有音乐控制样式 === */
+        .nav .music-control {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .music-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--gold);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        /* 播放状态显示为暂停符号 */
+        .music-btn.playing::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 24px;
+            background: var(--deep-red);
+            left: 12px;
+            top: 4px;
+        }
+
+        /* 暂停状态显示为播放三角形 */
+        .music-btn:not(.playing)::after {
+            content: "";
+            position: absolute;
+            border-left: 16px solid var(--deep-red);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            left: 10px;
+            top: 8px;
+        }
 
         /* 主要内容区域 */
         .hero {
@@ -129,24 +169,6 @@
 
         .cta-button:hover {
             background-color: var(--gold);
-        }
-
-        /* 装饰元素 */
-        .decorative-element {
-            position: absolute;
-            opacity: 0.2;
-        }
-
-        .lantern {
-            top: 20px;
-            right: 50px;
-            width: 100px;
-        }
-
-        .chinese-pattern {
-            bottom: 20px;
-            left: 50px;
-            width: 150px;
         }
 
         .fullpage-container {
@@ -459,26 +481,187 @@
             display: inline-block;
             width: 2em;
         }
+        /* 答题卡片样式 */
+        .quiz-section {
+            text-align: center;
+            top:5px;
+            padding: 20px 0;
+            min-height: 50vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center; /* 垂直居中 */
+        }
+
+        #startQuiz {
+            width: 200px;
+            margin: 0 auto;
+            font-size: 1.5rem;
+            padding: 1rem 2.5rem;
+        }
+        .quiz-card {
+            display: none;
+            position: relative;
+            background: rgba(245, 230, 211, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            width: 60%;
+            margin: 20px auto;
+            box-shadow: 0 8px 16px rgba(143, 75, 19, 0.2);
+        }
+
+        .question {
+            text-align: center;
+        }
+        /* 调整按钮位置 */
+        #nextQuestion {
+            margin-top: 30px;
+            width: 200px;
+            align-self: center;
+        }
+        .answer-btn {
+            background: var(--vintage-brown);
+            color: var(--beige);
+            margin: 10px;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 25px;
+            font-family: 'FZYanSJW_Zhong';
+            transition: all 0.3s;
+        }
+        .answer-btn.active {
+            background: var(--deep-green) !important;
+            box-shadow: 0 0 10px rgba(218, 165, 32, 0.5);
+        }
+        .answer-btn:hover {
+            background: var(--gold);
+            transform: translateY(-2px);
+        }
+        /* 答案容器样式 */
+        .answer-container {
+            display: flex;
+            flex-direction: row;     /* 将竖向改为横向 */
+            flex-wrap: wrap;         /* 允许选项换行 */
+            gap: 15px;               /* 保留选项间距 */
+            margin: 20px 0;          /* 保留上下边距 */
+            justify-content: center; /* 水平居中排列 */
+        }
+
+        /* 结果按钮样式 */
+        #showResult {
+        margin-top: 20px; /* 与选项的间距 */
+        width: fit-content; /* 自适应宽度 */
+        align-self: center; /* 水平居中 */
+        }
+
+        #showResult:hover {
+            background: var(--deep-green);
+            color: var(--beige);
+        }
+        /* 返回按钮专用样式 */
+        #backButton {
+            /* 大小控制 */
+            padding: 0.4rem 1rem !important;  /* 缩小内边距 */
+            font-size: 0.85rem !important;     /* 缩小字体 */
+            min-width: 80px;                   /* 最小宽度 */
+            
+            /* 定位优化 */
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            
+            /* 视觉优化 */
+            border-radius: 15px !important;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+        }
+
+        /* 悬停效果 */
+        #backButton:hover {
+            transform: scale(0.95);
+            opacity: 0.9;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            #backButton {
+                padding: 0.3rem 0.8rem !important;
+                font-size: 0.8rem !important;
+                left: 10px;
+                top: 10px;
+            }
+        }
+
+        .result-image {
+            animation: imageFade 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 25px;  /* 关键调整：增大间距 */
+            margin-top: 20px;
+            width: 100%;
+            position: static;
+        }
+
+        #generatedImg {
+            display: block !important;
+            max-width: 80% !important;
+            max-height: 60vh;
+            width: auto !important;
+            height: auto;
+            margin: 0 auto;
+            object-fit: contain;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        #saveImage {
+            display: block !important;
+            width: fit-content;
+            padding: 0.5rem 2rem;
+            font-size: 0.9rem;
+            border-radius: 20px;
+            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+            transition: all 0.2s ease;
+            margin: 0 auto !important;
+            /* 移除冲突属性 */
+            top: unset !important;
+            float: none !important;
+            position: static !important;
+        }
+
+
+        @media (max-width: 768px) {
+            #generatedImg {
+                max-width: 95%;
+                max-height: 50vh;
+            }
+            #saveImage {
+                padding: 0.4rem 1.5rem;
+                font-size: 0.85rem;
+            }
+        }
+
+
     </style>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 
 <body>
     <nav class="nav">
         <ul>
             <li><a href="../index.html">首页</a></li>
-            <li><a href="./history.html">历史</a></li>
-            <li><a href="./culture.html">文化</a></li>
-            <li><a href="./stories.html">华人故事</a></li>
+            <li><a href="history.html">历史</a></li>
+            <li><a href="culture.html">文化</a></li>
+            <li><a href="stories.html">华人故事</a></li>
+            <!-- 新增音乐控制按钮 -->
+            <li class="music-control">
+                <button id="music-toggle" class="music-btn paused">
+                    <div class="music-icon"></div>
+                </button>
+            </li>
         </ul>
     </nav>
-
-    <!-- 音乐控制按钮 -->
-    <button id="music-toggle">
-        <i class="fa-solid fa-music"></i>
-    </button>
-    <!-- 音频元素 -->
-    <audio id="background-music" src="../bgm/华风古巴韵-2.mp3" loop></audio>
 
     <!-- 大标题部分 -->
     <main class="hero">
@@ -663,77 +846,120 @@
     </div>
 
 <br><br>
+    <!-- 答题模块 -->
+    <div class="quiz-section">
+        <button class="cta-button" id="startQuiz">点击答题</button>
+        
+        <!-- 问题卡片容器 -->
+        <!-- 修改问题卡片结构 -->
+        <div class="quiz-card" id="quizCard">
+            <div class="question" id="question1">
+                <h3>第一题：哪种文化元素最能代表你心中的融合？</h3>
+                <!-- 第一题选项 -->
+                <button class="answer-btn" data-theme="music">粤剧音乐</button>
+                <button class="answer-btn" data-theme="food">中古美食</button>
+                <button class="answer-btn" data-theme="architecture">唐人街建筑</button>
+            </div>
+            <div class="question" id="question2" style="display:none;">
+                <button class="cta-button back-button" id="backButton">← 返回</button>
+                <h3>第二题：如果穿越回19世纪的古巴，你会选择？</h3>
+                <div class="answer-container">
+                    <!-- 第二题选项 -->
+                    <button class="answer-btn" data-era="martial">创办武术馆</button>
+                    <button class="answer-btn" data-era="clinic">开设中医诊所</button>
+                    <button class="answer-btn" data-era="troupe">组建戏班</button>
+                </div>
+                <button class="cta-button" id="showResult">查看结果</button>
+            </div>            
+            <button class="cta-button" id="nextQuestion">下一题</button> <!-- 初始可见 -->
+        </div>
+
+        <!-- 生成的图片展示 -->
+        <div class="result-image" id="resultImage" style="display:none;">
+            <img id="generatedImg" src="" alt="定制壁纸">
+            <button class="cta-button" id="saveImage">保存图片</button>
+        </div>
+    </div>
+
+
 
     <div class="overlay" id="overlay">
 
     </div>
     <script>
-        // 获取音乐按钮和音频元素
-        const musicToggle = document.getElementById('music-toggle');
-        const backgroundMusic = document.getElementById('background-music');
+        // ========= 全局音乐控制 =========
+        // 初始化音乐实例（所有页面共用）
+        if (!window.persistentMusic) {
+            window.persistentMusic = new Audio('../bgm/华风古巴韵-2.mp3');
+            window.persistentMusic.loop = true;
 
-        // 检查本地存储，恢复音乐播放状态
-        const isPlaying = localStorage.getItem('isPlaying') === 'true';
-        if (isPlaying) {
-            backgroundMusic.play();
-            musicToggle.classList.add('playing');
+            // 判断是否全新加载页面（通过外部链接打开）
+            const navigationEntry = performance.getEntriesByType("navigation")[0];
+            const isNewVisit = navigationEntry?.type === 'navigate';
+
+            if (isNewVisit) {
+                localStorage.setItem('musicTime', 0);
+                window.persistentMusic.currentTime = 0;
+            } else {
+                const savedTime = localStorage.getItem('musicTime') || 0;
+                window.persistentMusic.currentTime = savedTime;
+            }
+
+            const isPlaying = localStorage.getItem('musicPlaying') === 'true';
+            if (isPlaying) {
+                window.persistentMusic.play().catch(() => {});
+                document.getElementById('music-toggle').classList.add('playing');
+            }
         }
 
-        // 给音乐按钮添加点击事件监听器
-        musicToggle.addEventListener('click', function () {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
+        // 音乐按钮控制
+        document.getElementById('music-toggle').addEventListener('click', function() {
+            if (window.persistentMusic.paused) {
+                window.persistentMusic.play();
                 this.classList.add('playing');
-                localStorage.setItem('isPlaying', 'true');
+                localStorage.setItem('musicPlaying', 'true');
             } else {
-                backgroundMusic.pause();
+                window.persistentMusic.pause();
                 this.classList.remove('playing');
-                localStorage.setItem('isPlaying', 'false');
+                localStorage.setItem('musicPlaying', 'false');
             }
         });
 
-        // 页面卸载时保存音乐播放状态
-        window.addEventListener('beforeunload', function () {
-            localStorage.setItem('isPlaying', backgroundMusic.paused ? 'false' : 'true');
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const music = document.getElementById('background-music');
-            const musicToggle = document.getElementById('music-toggle');
-            const musicIcon = document.getElementById('music-icon');
-            let hasInteracted = sessionStorage.getItem('hasInteracted') === 'true';
-
-            if (hasInteracted) {
-            music.play();
-            musicIcon.classList.add('playing');
+        // 自动播放处理（首页互动后自动播放）
+        document.addEventListener('click', function initPlay() {
+            if (window.persistentMusic.paused) {
+                window.persistentMusic.play()
+                    .then(() => {
+                        document.getElementById('music-toggle').classList.add('playing');
+                        localStorage.setItem('musicPlaying', 'true');
+                    })
+                    .catch(() => {});
             }
+            document.removeEventListener('click', initPlay);
+        }, { once: true });
 
-            // 监听页面上的所有点击事件
-            document.addEventListener('click', function handleFirstInteraction(event) {
-            if (!hasInteracted) {
-                music.play();
-                musicIcon.classList.add('playing');
-                hasInteracted = true;
-                sessionStorage.setItem('hasInteracted', 'true');
-                // 移除事件监听器，确保只在第一次互动时播放音乐
-                document.removeEventListener('click', handleFirstInteraction);
-            }
-            });
-
-            // 点击图标暂停/播放音乐
-            musicToggle.addEventListener('click', function() {
-            if (music.paused) {
-                music.play();
-                musicIcon.classList.add('playing');
-            } else {
-                music.pause();
-                musicIcon.classList.remove('playing');
-            }
-            });
+        // 保存播放状态
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('musicTime', window.persistentMusic.currentTime);
+            localStorage.setItem('musicPlaying', !window.persistentMusic.paused);
         });
 
 
+        // 初始化答案存储对象
+        let answers = {
+            theme: null,
+            era: null
+        };
 
+        // 修改：将下一题按钮事件绑定移至此处
+        document.getElementById('nextQuestion').addEventListener('click', function() {
+                document.getElementById('question1').style.display = 'none';
+                document.getElementById('question2').style.display = 'block';
+                this.style.display = 'none';
+                document.getElementById('showResult').style.display = 'inline-block';
+        });
+              // 绑定查看结果按钮
+            document.getElementById('showResult').addEventListener('click', showResult);
 
         document.addEventListener('DOMContentLoaded', function () {
         const exploreButton = document.getElementById('exploreButton');
@@ -879,7 +1105,95 @@
                     storyCard.style.display = 'none';
                     overlay.style.display = 'none';
                 };
+        });
+
+        // 答题逻辑
+        document.getElementById('startQuiz').addEventListener('click', function() {
+            this.style.display = 'none';
+            document.getElementById('quizCard').style.display = 'block';
+            document.querySelector('#question1').style.display = 'block';
+        });
+
+        // 修改答案点击逻辑
+        document.querySelectorAll('.answer-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                // 清除同组其他按钮状态
+                this.parentElement.querySelectorAll('.answer-btn').forEach(b => 
+                    b.classList.remove('active'));
+                this.classList.add('active');
+                
+                // 修正代码↓↓↓
+                const question = this.closest('.question');
+                if (!question) return;
+                const questionId = question.id;
+                // 修正代码↑↑↑
+
+                if (questionId === 'question1') {
+                    answers.theme = this.dataset.theme;
+                } else if (questionId === 'question2') {
+                    answers.era = this.dataset.era;
+                }
+                console.log('当前存储答案:', answers); // 调试用
             });
+        });
+        document.getElementById('backButton').addEventListener('click', function() {
+            document.getElementById('question1').style.display = 'block';
+            document.getElementById('question2').style.display = 'none';
+            document.getElementById('nextQuestion').style.display = 'inline-block';
+            document.getElementById('showResult').style.display = 'none';
+            answers.era = null; // 清除已选答案
+            // 清除第二题的选中状态
+            document.querySelectorAll('#question2 .answer-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+        });
+        function showResult() {
+                // 新增验证↓↓↓
+            if (!answers.theme || !answers.era) {
+                alert('请完整回答两道题目');
+                return;
+            }
+            // 调试输出开始
+            console.log("当前选择的组合：", answers);
+            const combination = `${answers.theme}-${answers.era}`.toLowerCase();
+            const imgPath = `assets/img/result-${combination}.jpg`; 
+            console.log("正在尝试加载图片路径：", imgPath); // 添加路径输出
+
+            const generatedImg = document.getElementById('generatedImg');
+            const resultImage = document.getElementById('resultImage');
+            
+            // 显示加载状态
+            generatedImg.style.opacity = 0;
+            resultImage.style.display = 'block';
+
+            // 预加载图片
+            const img = new Image();
+            img.src = imgPath;
+            
+            img.onload = function() {
+                console.log("图片加载成功：", imgPath);
+                generatedImg.src = imgPath;
+                generatedImg.alt = '定制壁纸';
+                generatedImg.style.opacity = 1; // 添加淡入效果
+            };
+            
+            img.onerror = function() {
+                console.error("图片加载失败，使用默认图片：", imgPath);
+                generatedImg.src = 'assets/img/result-default.jpg';
+                generatedImg.alt = '默认文化融合壁纸';
+                generatedImg.style.opacity = 1;
+            };
+            
+            // 隐藏问题卡片
+            document.getElementById('quizCard').style.display = 'none';
+        }
+        // 保存图片
+        document.getElementById('saveImage').addEventListener('click', function() {
+            const link = document.createElement('a');
+            link.download = `cuban-culture-${answers.theme}-${answers.era}.png`;
+            link.href = document.getElementById('generatedImg').src;
+            link.click();
+        });
     </script>
     
 </body>

@@ -81,6 +81,46 @@
         .nav a:hover {
             color: var(--gold);
         }
+        /* === 替换原有音乐控制样式 === */
+        .nav .music-control {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .music-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--gold);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        /* 播放状态显示为暂停符号 */
+        .music-btn.playing::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 24px;
+            background: var(--deep-red);
+            left: 12px;
+            top: 4px;
+        }
+
+        /* 暂停状态显示为播放三角形 */
+        .music-btn:not(.playing)::after {
+            content: "";
+            position: absolute;
+            border-left: 16px solid var(--deep-red);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            left: 10px;
+            top: 8px;
+        }
 
         /* 主要内容区域 */
         .hero {
@@ -285,7 +325,7 @@
         .detail-modal {
             display: none;
             position: fixed;
-            top:0px;
+            top: 0;
             left: 0;
             width: 100%;
             height: 100%;
@@ -295,14 +335,15 @@
 
         .modal-content {
             background: rgba(249, 245, 237, 0.881);
-            margin: 5% auto;
-            padding: 10px;
+            margin: 0 auto;
+            padding: 30px;
             width: 90%;
-            max-width: 600px;
+            max-width: 550px;
             border-radius: 8px;
             position: relative;
-            top: 250px;
-            max-height: 110%;
+            top: 50%;
+            transform: translateY(-50%);
+            max-height: 80vh;
             overflow-y: auto;
         }
         /* 新增详情图片样式 */
@@ -359,25 +400,27 @@
                     flex-direction: column;
                 }
             }
+
+
     </style>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    
 </head>
 <body>
     <nav class="nav">
         <ul>
             <li><a href="../index.html">首页</a></li>
-            <li><a href="./history.html">历史</a></li>
-            <li><a href="./culture.html">文化</a></li>
-            <li><a href="./stories.html">华人故事</a></li>
+            <li><a href="history.html">历史</a></li>
+            <li><a href="culture.html">文化</a></li>
+            <li><a href="stories.html">华人故事</a></li>
+            <!-- 新增音乐控制按钮 -->
+            <li class="music-control">
+                <button id="music-toggle" class="music-btn paused">
+                    <div class="music-icon"></div>
+                </button>
+            </li>
         </ul>
     </nav>
 
-    <!-- 音乐控制按钮 -->
-    <button id="music-toggle">
-        <i class="fa-solid fa-music"></i>
-    </button>
-    <!-- 音频元素 -->
-    <audio id="background-music" src="../bgm/华风古巴韵-2.mp3" loop></audio>
 
     <main class="hero">
         <div class="hero-content">
@@ -473,71 +516,62 @@
 
 
     <script>
-        // 获取音乐按钮和音频元素
-        const musicToggle = document.getElementById('music-toggle');
-        const backgroundMusic = document.getElementById('background-music');
+        // ========= 全局音乐控制 =========
+        // 初始化音乐实例（所有页面共用）
+        if (!window.persistentMusic) {
+            window.persistentMusic = new Audio('../bgm/华风古巴韵-2.mp3');
+            window.persistentMusic.loop = true;
 
-        // 检查本地存储，恢复音乐播放状态
-        const isPlaying = localStorage.getItem('isPlaying') === 'true';
-        if (isPlaying) {
-            backgroundMusic.play();
-            musicToggle.classList.add('playing');
+            // 判断是否全新加载页面（通过外部链接打开）
+            const navigationEntry = performance.getEntriesByType("navigation")[0];
+            const isNewVisit = navigationEntry?.type === 'navigate';
+
+            if (isNewVisit) {
+                localStorage.setItem('musicTime', 0);
+                window.persistentMusic.currentTime = 0;
+            } else {
+                const savedTime = localStorage.getItem('musicTime') || 0;
+                window.persistentMusic.currentTime = savedTime;
+            }
+
+            const isPlaying = localStorage.getItem('musicPlaying') === 'true';
+            if (isPlaying) {
+                window.persistentMusic.play().catch(() => {});
+                document.getElementById('music-toggle').classList.add('playing');
+            }
         }
 
-        // 给音乐按钮添加点击事件监听器
-        musicToggle.addEventListener('click', function () {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
+        // 音乐按钮控制
+        document.getElementById('music-toggle').addEventListener('click', function() {
+            if (window.persistentMusic.paused) {
+                window.persistentMusic.play();
                 this.classList.add('playing');
-                localStorage.setItem('isPlaying', 'true');
+                localStorage.setItem('musicPlaying', 'true');
             } else {
-                backgroundMusic.pause();
+                window.persistentMusic.pause();
                 this.classList.remove('playing');
-                localStorage.setItem('isPlaying', 'false');
+                localStorage.setItem('musicPlaying', 'false');
             }
         });
 
-        // 页面卸载时保存音乐播放状态
-        window.addEventListener('beforeunload', function () {
-            localStorage.setItem('isPlaying', backgroundMusic.paused ? 'false' : 'true');
+        // 自动播放处理（首页互动后自动播放）
+        document.addEventListener('click', function initPlay() {
+            if (window.persistentMusic.paused) {
+                window.persistentMusic.play()
+                    .then(() => {
+                        document.getElementById('music-toggle').classList.add('playing');
+                        localStorage.setItem('musicPlaying', 'true');
+                    })
+                    .catch(() => {});
+            }
+            document.removeEventListener('click', initPlay);
+        }, { once: true });
+
+        // 保存播放状态
+        window.addEventListener('beforeunload', () => {
+            localStorage.setItem('musicTime', window.persistentMusic.currentTime);
+            localStorage.setItem('musicPlaying', !window.persistentMusic.paused);
         });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const music = document.getElementById('background-music');
-            const musicToggle = document.getElementById('music-toggle');
-            const musicIcon = document.getElementById('music-icon');
-            let hasInteracted = sessionStorage.getItem('hasInteracted') === 'true';
-
-            if (hasInteracted) {
-            music.play();
-            musicIcon.classList.add('playing');
-            }
-
-            // 监听页面上的所有点击事件
-            document.addEventListener('click', function handleFirstInteraction(event) {
-            if (!hasInteracted) {
-                music.play();
-                musicIcon.classList.add('playing');
-                hasInteracted = true;
-                sessionStorage.setItem('hasInteracted', 'true');
-                // 移除事件监听器，确保只在第一次互动时播放音乐
-                document.removeEventListener('click', handleFirstInteraction);
-            }
-            });
-
-            // 点击图标暂停/播放音乐
-            musicToggle.addEventListener('click', function() {
-            if (music.paused) {
-                music.play();
-                musicIcon.classList.add('playing');
-            } else {
-                music.pause();
-                musicIcon.classList.remove('playing');
-            }
-            });
-        });
-
-
 
         let currentSection = 0;
         const sections = document.querySelectorAll('.story-section');
@@ -624,7 +658,10 @@
                     content: `
                         <h2>1847 - 1870：早期华工移民</h2>
                         <img src="assets/history/early-migration.jpg" alt="早期华工">
-                        <p>1847年6月3日，首批206名华工抵达古巴雷加拉港。这些契约劳工主要来自中国南方的广东省，在甘蔗种植园和制糖厂工作。他们面临艰苦的工作条件，工时长、工资低，但许多人在合同期满后选择留在古巴，为早期华人社区的形成奠定了基础。</p>
+                        <p>英国废除奴隶贸易（1807年）后，西班牙为填补古巴甘蔗园劳动力缺口，转向中国招募"契约劳工"。华工多来自广东四邑（台山、开平、恩平、新会），招聘的人说去古巴种甘蔗，八年期满给十亩地，顿顿吃白米饭！签订8年合同，首批206名华工实际沦为变相奴隶。1847年首批"苦力船"抵达古巴，西班牙商船"奥坎多号"载首批206名华工抵达哈瓦那雷加拉港，标志着古巴契约华工时代的开端。货舱里206个男人，都是被"契约"二字骗上船的。当铁链锁住舱门时，他们才看清所谓"合同"竟是卖身契：每天劳作18小时，逃跑者鞭刑至死。西班牙监工提着煤油灯晃过，火光映出舱壁刻满的汉字，有人用指甲抠出"开平李二狗卒于此"，有人画了幅故乡的碉楼。船程未过半因霍乱，高烧的劳工会被抛弃，被鲨鱼啃食。抵达种植园后的长时间工作也只能靠着意志坚持下去。</p>
+                        <div style="text-align: right; margin-top: 20px;">
+                            <a href="http://xhslink.com/a/ggByIwiP7yt8" target="_blank" style="background-color: var(--vintage-brown); color: var(--beige); padding: 8px 15px; text-decoration: none; border-radius: 5px; display: inline-block;">了解更多</a>
+                        </div>
                     `
                 },
                 '1870': {
@@ -632,7 +669,10 @@
                     content: `
                         <h2>1870 - 1900：自由移民时期</h2>
                         <img src="assets/history/free-migration.jpg" alt="自由移民">
-                        <p>契约劳工制度废除后，更多华人开始以自由移民的身份来到古巴。这个时期的移民主要从事商业、餐饮和手工业等行业，逐渐在哈瓦那等大城市建立起了自己的商业网络和社会组织。</p>
+                        <p>1847年后古巴以契约劳工为主，1874年清政府禁止苦力贸易后，部分自由华工转向商业、手工业，形成早期华人社区。</p>
+                        <p>殖民政府推行"漂白政策"，鼓励西班牙人移民以巩固统治，多数从事行政、商业和农业。邻近岛屿自由劳工（如牙买加、海地）填补种植园空缺；获解放的非洲裔向城市迁移，但仍受种族压迫。</p>
+                        <p>不同地区的移民汇集在这里，华人饮食、非洲音乐与宗教、西班牙传统交织，形成多元文化底色。自由劳工逐步取代奴隶制，推动雇佣制发展，但剥削问题持续。</p>
+                        <p>1879年古巴的自由移民现象是殖民经济转型、战争动荡与全球劳动力流动共同作用的结果。移民不仅重塑了古巴人口结构和文化，也为独立运动埋下火种，成为理解现代古巴社会形成的关键线索。</p>
                     `
                 },
                 '1900': {
@@ -640,7 +680,11 @@
                     content: `
                         <h2>1900 - 1950：社区发展黄金期</h2>
                         <img src="assets/history/golden-age.jpg" alt="社区发展">
-                        <p>20世纪初期是古巴华人社区的黄金发展时期。华人经济实力显著提升，社会地位不断改善。哈瓦那唐人街成为重要的商业和文化中心，各类华人社团组织蓬勃发展。</p>
+                        <p>古巴华人社区的黄金时期大致从19世纪末延续至20世纪中期，这一时期华人从契约劳工转型为商人、手工业者和文化传播者，社区规模和社会影响力达到巅峰。</p>
+                        <p>1922年，《华文商报》创刊，成为古巴首份中文报纸，传播中国新闻与商业信息。1940年代，《民声日报》《开明公报》等相继发行，推动文化传承。</p>
+                        <p>华人学校如"中华学校"教授中文和传统文化，维系年轻一代的文化认同。洪门致公堂、龙冈亲义总公所等秘密社团转型为公开的互助组织，举办慈善活动。</p>
+                        <p>春节舞龙舞狮、中秋灯会吸引古巴民众参与，成为哈瓦那的文化盛事。二战期间，华人社区组织"抗日救国会"，募捐支援中国抗战，同时参与古巴本土反法西斯活动。</p>
+                        <p>古巴华人被视作全球华人团结抗敌的典范，提升社区的国际形象。</p>
                     `
                 },
                 '1950': {
@@ -648,7 +692,10 @@
                     content: `
                         <h2>1950 - 1980：政治变革期</h2>
                         <img src="assets/history/revolution-era.jpg" alt="变革时期">
-                        <p>这一时期的政治变革导致许多华人选择离开古巴，华人社区规模开始逐渐缩小。但仍有部分华人选择留下，继续在古巴生活并维护着传统文化。</p>
+                        <p>这一时期的政治变革导致许多华人选择离开古巴，华人社区规模开始逐渐缩小。但仍有部分华人选择留下，潘松年，50年代来到古巴，接手了一家杂货铺，多年经营小有积蓄，没想到1959年之后，全部化为泡影。如今的潘松年，每个月靠着10美元的退休金生活，与几个老华侨在一起，曾经中国的弟弟提出接他回国养老，也寄来了机票钱，但老人却说"人还是要活得有脸面"，虽然生活窘迫，但他还是不愿意回国用别人的钱，这种曾经一夜之间带来的巨大伤痛背后，是和潘老一样的十万多华人共同的命运，落魄又无助的羞耻感。</p>
+                        <div style="text-align: right; margin-top: 20px;">
+                            <a href="http://xhslink.com/a/ElgAjV4WC7p8" target="_blank" style="background-color: var(--vintage-brown); color: var(--beige); padding: 8px 15px; text-decoration: none; border-radius: 5px; display: inline-block;">了解更多</a>
+                        </div>
                     `
                 },
                 '1980': {
@@ -656,7 +703,11 @@
                     content: `
                         <h2>1980 - 至今：文化复兴时期</h2>
                         <img src="assets/history/revival.jpg" alt="文化复兴">
-                        <p>近些年来，古巴政府开始重视华人文化的保护和复兴。新一代华裔积极投入传统文化的传承工作，推动社区的多元化发展。哈瓦那唐人街重现活力，吸引着越来越多的游客和投资。</p>
+                        <p>19世纪末至20世纪中叶，古巴经历了一段融合移民浪潮、民族觉醒与文化创新的特殊历史时期，塑造了现代国家的多元底色。</p>
+                        <p>经济与社会转型方面，1879年前后自由移民（华人、西班牙人、加勒比劳工）填补奴隶制瓦解后的劳动力缺口，推动种植园经济向雇佣制过渡，华人社区更在20世纪初黄金期发展为西半球最大侨社，商业与文化影响力深远。</p>
+                        <p>独立战争与民族意识催化了文化复兴，何塞·马蒂等思想家以反殖民文学重构"古巴人"身份，黑人文化运动将非洲传统融入诗歌与音乐，颂乐、萨尔萨等混血艺术风靡全球。</p>
+                        <p>文化觉醒的独特性在于打破欧洲中心，以非洲、亚洲移民文化为根基，通过文学、音乐与视觉艺术（如尼古拉斯·纪廉的诗歌、维尔弗雷多·林的绘画）构建"混血古巴"认同。</p>
+                        <p>这一过程既是殖民遗产的反思，也是移民贡献与本土抗争的交织，最终形成古巴独特的文化软实力，至今影响其艺术与国族叙事。</p>
                     `
                 }
             };

@@ -87,7 +87,46 @@
         .nav a:hover {
             color: var(--gold);
         }
+        /* 修改音乐控制样式 */
+        .nav .music-control {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+        }
 
+        .music-btn {
+            width: 32px;
+            height: 32px;
+            border: none;
+            background: var(--gold);
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        /* 播放状态显示为暂停符号 */
+        .music-btn.playing::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 24px;
+            background: var(--deep-red);
+            left: 12px;
+            top: 4px;
+        }
+
+        /* 暂停状态显示为播放三角形 */
+        .music-btn:not(.playing)::after {
+            content: "";
+            position: absolute;
+            border-left: 16px solid var(--deep-red);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            left: 10px;
+            top: 8px;
+        }
         /* 主要内容区域 */
         .hero {
             margin-top: 20px;
@@ -137,24 +176,6 @@
             background-color: var(--gold);
         }
 
-        /* 装饰元素 */
-        .decorative-element {
-            position: absolute;
-            opacity: 0.2;
-        }
-
-        .lantern {
-            top: 20px;
-            right: 50px;
-            width: 100px;
-        }
-
-        .chinese-pattern {
-            bottom: 20px;
-            left: 50px;
-            width: 150px;
-        }
-
         .fullpage-container {
             display: none;
             position: fixed;
@@ -188,7 +209,7 @@
         }
 
         .story-content {
-            max-width: 800px;
+            max-width: 850px;
             padding: 2rem;
             background: rgba(245, 230, 211, 0.9);
             border: 2px solid var(--vintage-brown);
@@ -232,7 +253,12 @@
         .story-grid.reverse > * {
             direction: ltr;
         }
-
+        .story-text p{
+            font-size: 14px;
+        }
+        .story-text h2{
+            font-size: 25px;
+        }
         .story-image {
             position: relative;
             overflow: hidden;
@@ -290,25 +316,7 @@
             }
         }
 
-        /* 音乐图标样式 */
-        #music-toggle {
-                    position: fixed;
-                    top: 20px;
-                    right: 20px;
-                    background: none;
-                    border: none;
-                    cursor: pointer;
-                    font-size: 30px;
-                    color: #333;
-                }
-
-                #music-toggle.playing {
-                    color: #ff0000;
-                }
-
     </style>
-    <!-- 引入 Font Awesome 图标库 -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
 </head>
 <body>
     <nav class="nav">
@@ -317,14 +325,14 @@
             <li><a href="pages/history.html">历史</a></li>
             <li><a href="pages/culture.html">文化</a></li>
             <li><a href="pages/stories.html">华人故事</a></li>
+            <!-- 新增音乐控制按钮 -->
+            <li class="music-control">
+                <button id="music-toggle" class="music-btn paused">
+                    <div class="music-icon"></div>
+                </button>
+            </li>
         </ul>
     </nav>
-    <!-- 音乐控制按钮 -->
-    <button id="music-toggle">
-        <i class="fa-solid fa-music"></i>
-    </button>
-    <!-- 音频元素 -->
-    <audio id="background-music" src="bgm/华风古巴韵-2.mp3" loop></audio>
 
     <main class="hero">
         <div id="hero-content" class="hero-content">
@@ -343,15 +351,16 @@
                 <div class="story-grid">
                     <div class="story-text">
                         <h2>我叫何秋兰</h2>
-                        <p>我出生在1930年代的哈瓦那，生父早逝后与母亲流浪街头。幸运的是，来自广东开平的华人方标收留了我们。他原是富家少爷，因痴迷粤剧离家出走，最终成为古巴劳工。方标视我如己出，教我说广东台山话、识汉字，还传授粤剧技艺。</p>
+                        <p>一个生在古巴却长着中国心的老太太。
+                            <br><br>1930年代，我出生在哈瓦那。生父早逝后，我和母亲流落街头，直到遇见改变我一生的恩人——来自广东开平的方标。
+                            <br><br>这位痴迷粤剧的富家少爷，为追寻梦想远渡重洋，最终在古巴当起了洗衣工。他不仅收留了我们母女，更待我如亲生女儿，一字一句教我台山话，一笔一划教我写汉字，一招一式传授粤剧精髓。                            
+                            <br><br>虽然我的皮肤是白色的，但我的灵魂早已被染上了中国文化的色彩。
+                            <br><br>养父常说，戏曲不分国界，只要用心，就能唱出最动人的旋律。他用毕生心血，在我这个古巴女孩身上，种下了一颗永不凋零的中国心。
+                        </p>                        
                     </div>
                     <div class="story-image">
                         <img src="assets/havana-chinatown.jpg" alt="哈瓦那唐人街老照片">
                     </div>
-                </div>
-                <div class="decorative-elements">
-                    <img src="assets/chinese-pattern1.png" class="pattern pattern-1" alt="中式图案">
-                    <img src="assets/havana-elements.png" class="pattern pattern-2" alt="古巴元素">
                 </div>
             </div>
             <div class="scroll-hint">向下滚动继续阅读</div>
@@ -365,12 +374,13 @@
                     </div>
                     <div class="story-text">
                         <h2>粤剧舞台上的璀璨人生</h2>
-                        <p>8岁登台表演，15岁就成为国光粤剧团的正印花旦，我在古巴华人社区备受欢迎。1959年古巴革命后，粤剧逐渐没落，我不得不改行，做过医院秘书和餐厅收银员。2010年，在华人摄影师刘博智的帮助下，我首次回到中国，祭拜养父方标的祖坟，还献唱了他教我的第一首粤剧《卖花女》。</p>
+                        <p>
+                            我自幼随养父方标在“国光”剧团长大，受他对粤剧痴迷的影响，我也爱上了粤剧。四五岁时，我渴望唱戏，但剧团因我年龄小不收，养父只是坚定地说：“阿爸教你”。
+                            <br><br>养父教我粤剧技艺，借戏文向我传授中华文化与做人道理。教我第一支曲《卖花女》时，那旋律就此扎根我心间。他熬夜誊抄的戏本，泛黄纸页上，中文唱词旁精心标注着西班牙语音注。“戏文要刻在心里”，这句话我记了一辈子。 
+                            <br><br>八岁首次登台，我在侧幕偷抹胭脂被养父发现。他颤抖着手指为我点上朱砂，声音哽咽地叮嘱道：“上了台，你就是杜丽娘。白人皮肤，盖不住中国魂。”
+                            <br><br>十五岁我成花旦时，养父眼中满是为父的骄傲、游子的乡愁和艺人的执着。这些情感与粤剧相伴，深深烙印在我的文化经历中，成为我生命中最珍贵的财富。
+                        </p>
                     </div>
-                </div>
-                <div class="decorative-elements">
-                    <img src="assets/musical-notes.png" class="pattern pattern-3" alt="音符">
-                    <img src="assets/opera-mask.png" class="pattern pattern-4" alt="戏曲面具">
                 </div>
             </div>
         </div>
@@ -380,83 +390,142 @@
                 <div class="story-grid">
                     <div class="story-text">
                         <h2>黄美玉：我的粤剧知音</h2>
-                        <p>我是黄美玉，一个拥有二分之一华人血统的古巴女性。父亲是广东开平人，母亲是古巴人。我用西班牙语注音学习粤剧唱词，在国光粤剧团与何秋兰成为黄金搭档。我演小生，她演花旦。虽然后来成为外交官，但退休后我们重逢，并在2011年至2019年间多次回中国演出，继续传承这份文化瑰宝。</p>
+                        <p>
+                            在哈瓦那华埠的某个午后，我遇见了黄美玉——一个和我一样，血液里流淌着两种文化的姑娘。
+                            <br><br>她的父亲是华人，母亲是古巴人，那双灵动的眼睛既含着东方的温婉，又带着加勒比的热情。
+                            <br><br>初见时，我掰开兜里最后半块椰子糖递给她："食糖开声，唱戏唔怕喉咙紧。"她愣了下，随即笑出了两个酒窝。  
+                            <br><br>在"国光"剧团里，她扮俊朗小生，我演娇俏花旦。
+                            <br><br>1958年赴关塔那摩演出遭武装袭击，黄美玉为了保护我左肩中弹，躲进甘蔗田三天，靠嚼蔗芯维生，我哼着《客途秋恨》驱散死亡恐惧。
+                        </p>
                     </div>
                     <div class="story-image">
                         <img src="assets/friendship.jpg" alt="两位女性的友谊">
                     </div>
                 </div>
-                <div class="decorative-elements">
-                    <img src="assets/chinese-knot.png" class="pattern pattern-5" alt="中国结">
-                    <img src="assets/flower.png" class="pattern pattern-6" alt="花卉">
+            </div>
+            <div class="scroll-hint">向下滚动继续阅读</div>
+        </div>
+
+        <div class="story-section" id="story-4">
+            <div class="story-content">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>账本里的游园惊梦</h2>
+                        <p>
+                            我这一生最痛心的，就是不得不放下水袖，拿起账本的那段日子。
+                            <br><br>1959年后，哈瓦那变了天。中国城的粤剧团一个接一个关门，那些曾经座无虚席的戏院，突然就没了我们的立足之地。我至今记得最后一次在"国光"卸妆时，养父默默帮我收着头面，他的手指在珠钗上发抖——那是他第一次允许眼泪掉在我的戏服上。  
+                            <br><br>方标爸爸教我的最后一出戏，叫《活着》。
+                            <br><br>为了养家，我不得已改行去做收银员。
+                        </p>
+                    </div>
+                    <div class="story-image">
+                        <img src="assets/ABC.jpg" alt="何秋兰">
+                    </div>
                 </div>
             </div>
+            </div class="scroll-hint">向下滚动继续阅读</div>
         </div>
-    </div>
+
+        </div><div class="story-section" id="story-5">
+             <div class="story-content">
+                <div class="story-grid">
+                    <div class="story-text">
+                        <h2>重拾水袖</h2>
+                        <p>
+                            随着哈瓦那政府启动中国城文化复兴计划，我受邀参与重组粤剧团，成为核心成员主动承担剧本改编的工作，将传统长剧浓缩为适合老年人表演的短版剧目。
+                            <br><br>2010年左右，在华人摄影师刘博智等人的帮助下，我与旧日老搭档黄美玉三次赴中国进行正式复出演出。
+                        </p>
+                    </div> 
+                    <div class="story-image">
+                        <img src="assets/DEF.jpg" alt="两位女性的友谊">
+                    </div>   
+                </div>
+            </div>
+       </div>
+    </div>>
 
     <script>
-        // 获取音乐按钮和音频元素
-        const musicToggle = document.getElementById('music-toggle');
-        const backgroundMusic = document.getElementById('background-music');
+        // ========= 全局音乐控制 =========
+        // 初始化音乐实例（所有页面共用）
+        if (!window.persistentMusic) {
+            window.persistentMusic = new Audio('bgm/华风古巴韵-2.mp3');
+            window.persistentMusic.loop = true;
 
-        // 检查本地存储，恢复音乐播放状态
-        const isPlaying = localStorage.getItem('isPlaying') === 'true';
-        if (isPlaying) {
-            backgroundMusic.play();
-            musicToggle.classList.add('playing');
+            // 判断是否全新加载页面（通过外部链接打开）
+            const navigationEntry = performance.getEntriesByType("navigation")[0];
+            const isNewVisit = navigationEntry?.type === 'navigate';
+
+            if (isNewVisit) {
+                // 全新访问时重置播放时间
+                localStorage.setItem('musicTime', 0);
+                window.persistentMusic.currentTime = 0;
+            } else {
+                // 恢复保存的播放时间
+                const savedTime = localStorage.getItem('musicTime') || 0;
+                window.persistentMusic.currentTime = savedTime;
+            }
+
+            // 恢复播放状态
+            const isPlaying = localStorage.getItem('musicPlaying') === 'true';
+            if (isPlaying) {
+                window.persistentMusic.play().catch(() => {});
+                document.getElementById('music-toggle').classList.add('playing');
+            }
         }
 
-        // 给音乐按钮添加点击事件监听器
-        musicToggle.addEventListener('click', function () {
-            if (backgroundMusic.paused) {
-                backgroundMusic.play();
+        // 音乐按钮控制
+        document.getElementById('music-toggle').addEventListener('click', function() {
+            if (window.persistentMusic.paused) {
+                window.persistentMusic.play();
                 this.classList.add('playing');
-                localStorage.setItem('isPlaying', 'true');
+                localStorage.setItem('musicPlaying', 'true');
             } else {
-                backgroundMusic.pause();
+                window.persistentMusic.pause();
                 this.classList.remove('playing');
-                localStorage.setItem('isPlaying', 'false');
+                localStorage.setItem('musicPlaying', 'false');
             }
         });
 
-        // 页面卸载时保存音乐播放状态
-        window.addEventListener('beforeunload', function () {
-            localStorage.setItem('isPlaying', backgroundMusic.paused ? 'false' : 'true');
-        });
+        // ========= 自动播放处理 =========
+        let autoPlayAttempted = false; // 防止重复尝试
 
-        document.addEventListener('DOMContentLoaded', function() {
-            const music = document.getElementById('background-music');
-            const musicToggle = document.getElementById('music-toggle');
-            const musicIcon = document.getElementById('music-icon');
-            let hasInteracted = sessionStorage.getItem('hasInteracted') === 'true';
-
-            if (hasInteracted) {
-            music.play();
-            musicIcon.classList.add('playing');
+        // 尝试自动播放函数
+        function attemptAutoPlay() {
+            if (!autoPlayAttempted && window.persistentMusic.paused) {
+                window.persistentMusic.play()
+                    .then(() => {
+                        document.getElementById('music-toggle').classList.add('playing');
+                        localStorage.setItem('musicPlaying', 'true');
+                    })
+                    .catch(() => {
+                        // 自动播放被阻止时，等待用户交互
+                        const handleFirstClick = () => {
+                            if (window.persistentMusic.paused) {
+                                window.persistentMusic.play();
+                                document.getElementById('music-toggle').classList.add('playing');
+                                localStorage.setItem('musicPlaying', 'true');
+                            }
+                            document.removeEventListener('click', handleFirstClick);
+                        };
+                        document.addEventListener('click', handleFirstClick, { once: true });
+                    });
+                autoPlayAttempted = true;
             }
+        }
 
-            // 监听页面上的所有点击事件
-            document.addEventListener('click', function handleFirstInteraction(event) {
-            if (!hasInteracted) {
-                music.play();
-                musicIcon.classList.add('playing');
-                hasInteracted = true;
-                sessionStorage.setItem('hasInteracted', 'true');
-                // 移除事件监听器，确保只在第一次互动时播放音乐
-                document.removeEventListener('click', handleFirstInteraction);
-            }
-            });
+        // 首页加载时触发自动播放
+        if (window.location.pathname.endsWith('index.html') || window.location.pathname === '/') {
+            document.addEventListener('DOMContentLoaded', attemptAutoPlay);
+        }
 
-            // 点击图标暂停/播放音乐
-            musicToggle.addEventListener('click', function() {
-            if (music.paused) {
-                music.play();
-                musicIcon.classList.add('playing');
-            } else {
-                music.pause();
-                musicIcon.classList.remove('playing');
+        // ========= 保存播放状态 =========
+        window.addEventListener('beforeunload', () => {
+            // 仅当非页面跳转时保存播放时间（防止切换页面时重置）
+            const isPageNavigation = document.querySelector('a[href^="pages/"]:active');
+            if (!isPageNavigation) {
+                localStorage.setItem('musicTime', window.persistentMusic.currentTime);
             }
-            });
+            localStorage.setItem('musicPlaying', !window.persistentMusic.paused);
         });
 
 
